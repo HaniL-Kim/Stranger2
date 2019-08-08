@@ -11,9 +11,7 @@ public class PlayerController : MonoBehaviour
     private Color wallColor; // 투명화 캐싱(플레이어가 벽 후면쪽 이동시 벽 컬러값)
     private Vector2 tempPos; // 투명화 캐싱 플레이어가 벽 후면쪽 이동시 벽 위치값)
 
-    private Camera Cam; // Player Rotation - Mouse Position Check
-    private Vector2 mousePos; // Player Rotation - Mouse Position Check
-    private Vector2 VecMouseToPlayer;
+
 
     void Awake()
     {
@@ -21,10 +19,6 @@ public class PlayerController : MonoBehaviour
 
         wallColor = new Color(1, 1, 1, 1);
         tempPos = new Vector2(0, 0);
-
-        Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mousePos = new Vector2(0, 0);
-        VecMouseToPlayer = new Vector2(0, 0);
     }
 
     void FixedUpdate()
@@ -58,58 +52,6 @@ public class PlayerController : MonoBehaviour
         }
         */
         rb.velocity = Vector3.ClampMagnitude(tryMove, 1f) * walkSpeed;
-
-        // 마우스 위치에 따른 캐릭터 방향 전환
-        mousePos = Input.mousePosition;
-        mousePos = Cam.ScreenToWorldPoint(mousePos);
-
-        VecMouseToPlayer.x = mousePos.x - this.transform.position.x;
-        VecMouseToPlayer.y = mousePos.y - this.transform.position.y;
-        VecMouseToPlayer.Normalize(); // mouse위치 - player 위상 Vector 정규화
-
-        float TmpAngle = Quaternion.FromToRotation(Vector3.right, VecMouseToPlayer).eulerAngles.z;
-        // Debug.Log("위상" + VecMouseToPlayer + "사이각" + TmpAngle);
-        // 두 벡터 사이 각에 따라 player방향 결정
-        if (TmpAngle < 22.5f || 337.5f <= TmpAngle)
-        {
-            // Static E 애니메이션 재생
-            Debug.Log("E");
-        }
-        else if (22.5f <= TmpAngle && TmpAngle < 67.5f)
-        {
-            // Static NE 애니메이션 재생
-            Debug.Log("NE");
-        }
-        else if (67.5f <= TmpAngle && TmpAngle < 112.5f)
-        {
-            // Static N 애니메이션 재생
-            Debug.Log("N");
-        }
-        else if (112.5f <= TmpAngle && TmpAngle < 157.5f)
-        {
-            // Static NW 애니메이션 재생
-            Debug.Log("NW");
-        }
-        else if (157.5f <= TmpAngle && TmpAngle < 202.5f)
-        {
-            // Static W 애니메이션 재생
-            Debug.Log("W");
-        }
-        else if (202.5f <= TmpAngle && TmpAngle < 247.5f)
-        {
-            // Static SW 애니메이션 재생
-            Debug.Log("SW");
-        }
-        else if (247.5f <= TmpAngle && TmpAngle < 292.5f)
-        {
-            // Static S 애니메이션 재생
-            Debug.Log("S");
-        }
-        else if (292.5f <= TmpAngle && TmpAngle < 337.5f)
-        {
-            // Static SE 애니메이션 재생
-            Debug.Log("SE");
-        }
     }
 
     public static float CalculateAngle(Vector2 from, Vector2 to)
