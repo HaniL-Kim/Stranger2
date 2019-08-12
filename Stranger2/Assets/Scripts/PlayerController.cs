@@ -4,25 +4,45 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float walkSpeed;  // Inspector 입력
 
+    public float walkSpeed; // Player Movement(Inspector Input)
     private Rigidbody2D rb; // Player Movement
 
-    private Color wallColor; // 투명화 캐싱(플레이어가 벽 후면쪽 이동시 벽 컬러값)
-    private Vector2 tempPos; // 투명화 캐싱 플레이어가 벽 후면쪽 이동시 벽 위치값)
 
-
+    private PlayerRenderer playerRenderer;
+    private Vector2 playerDirection;
+    private RaycastHit2D rayClickhit; // Click으로 Wall collider 감지(DeCombine)
+    public float rayClickDistance; // Inspector : 0.3f
+    public LayerMask layerMask;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        wallColor = new Color(1, 1, 1, 1);
-        tempPos = new Vector2(0, 0);
+        playerRenderer = this.GetComponent<PlayerRenderer>();
     }
 
     void FixedUpdate()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            playerDirection = playerRenderer.playerDirection;
+            /*
+            playerDirection.x = playerRenderer.h_move;
+            playerDirection.y = playerRenderer.v_move;
+            */
+            rayClickhit = Physics2D.Raycast(this.transform.position, playerDirection, rayClickDistance, layerMask);
+            Debug.DrawRay(this.transform.position, playerDirection * rayClickDistance, Color.red, 0.1f); // Click Ray Check
+            if(rayClickhit.collider != null)
+            {
+                if (rayClickhit.collider.tag == "Wall")
+                {
+                    DeCombine(rayClickhit.collider.gameObject);
+                    Debug.Log(rayClickhit.collider.name);
+                }
+            }
+
+        }
+
         // 캐릭터 이동
         Vector3 tryMove = Vector3.zero;
 
@@ -34,7 +54,8 @@ public class PlayerController : MonoBehaviour
         {
             tryMove.y += (Input.GetAxisRaw("Vertical"));
         }
-        /*
+
+        /* Side Walk 추가시 수정
         if (Input.GetKey(KeyCode.A)) // side walk
             tryMove += Vector3Int.left;
         if (Input.GetKey(KeyCode.D)) // side walk
@@ -54,30 +75,14 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.ClampMagnitude(tryMove, 1f) * walkSpeed;
     }
 
-    public static float CalculateAngle(Vector2 from, Vector2 to)
-    { // 두 벡터 사이 각도 구하기(0 ~ 360)
-        return Quaternion.FromToRotation(Vector3.up, to - from).eulerAngles.z;
-    }
-
-
-    void OnTriggerExit2D(Collider2D col)
-    { // 근접한 pillar or wall 투명화 해제
-        col.gameObject.GetComponent<SpriteRenderer>().color = wallColor; // collider alpha 초기화
-    }
-
-    void OnTriggerEnter2D(Collider2D col)
-    { // 근접한 pillar or wall 투명화
-        if (col.tag == "Pillar" || col.tag == "Wall") // collider 태그 확인
-        { 
-            // todo : back wall은 투명도 조절x
-            tempPos = col.gameObject.GetComponent<Transform>().position; // collider 좌표 획득
-            if (this.transform.position.y > tempPos.y) // Player <-> Collider y좌표 비교
-            { // collider y좌표가 player y좌표보다 낮은값 일 때
-                Debug.Log("TriggenEnter From Back");
-                wallColor.a = 128f / 255f; // 캐시 alpha 값 반투명 설정
-                col.gameObject.GetComponent<SpriteRenderer>().color = wallColor; // collider alpha 수정
-                wallColor.a = 255f / 255f; // 캐시 alpha 값 초기화
-            }
-        }
+    private void DeCombine(GameObject obj)
+    {
+        /*
+         * Play DeCombine Animation
+         * After DeCombine Animation, SetParent obj to Player
+         */
+         // player DeCombine Anim
+        // if(들고있지 않을때)
+        obj.gameObject.transform.SetParent(this.transform);
     }
 }
