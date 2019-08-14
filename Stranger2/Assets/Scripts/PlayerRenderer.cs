@@ -12,7 +12,7 @@ public class PlayerRenderer : MonoBehaviour
     private float h_move;
     private float v_move;
     public Vector2 playerDirection;
-    private GameObject wallCarrying;
+    public GameObject wallCarrying; // PlayerController.Cobine()에서 참조
 
     private enum playerDirectionEnum { N, NW, W, SW, S, SE, E, NE };
     private playerDirectionEnum playerDirectionState;
@@ -21,7 +21,7 @@ public class PlayerRenderer : MonoBehaviour
     private Color wallColor; // Player Behind Wall (Caching)
     private Vector2 tempPos; // Player Behind Wall (Caching)
 
-    private GameObject carryWallCollider; // CarryWall (Caching)
+    public GameObject carryWallCollider; // CarryWall (Caching)
     private Quaternion tmpRotation; // CarryWall (Caching)
 
     private void Awake()
@@ -29,6 +29,7 @@ public class PlayerRenderer : MonoBehaviour
         anim = GetComponent<Animator>();
         Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         mousePos = new Vector2(0, 0);
+        playerDirection = Vector2.down;
         VecMouseToPlayer = new Vector2(0, 0);
         h_move = 0f;
         v_move = 0f;
@@ -124,14 +125,14 @@ public class PlayerRenderer : MonoBehaviour
          * Play Carry Animation
          */
         if (this.gameObject.transform.childCount == 4)
-        { // Child(3) = Wall
-            carryWallCollider = this.transform.GetChild(2).gameObject;
+        { // child(0:movementCollider, 1:seeThroughWallCollider, 2:carryWallCollider(inactivate), 3:Wall(dynamic)
+            carryWallCollider = this.transform.GetChild(this.transform.childCount - 2).gameObject;
             carryWallCollider.SetActive(true);
-            wallCarrying = this.transform.GetChild(3).gameObject;
+            wallCarrying = this.transform.GetChild(this.transform.childCount - 1).gameObject;
             wallCarrying.GetComponent<Transform>().localPosition = playerDirection / 5; // wall positioning
             wallCarrying.GetComponent<Collider2D>().enabled = false; // wall edgeCollider disable
             wallColor.a = 128f / 255f; // 캐시 alpha 값 반투명 설정
-            wallCarrying.GetComponent<SpriteRenderer>().color = wallColor;
+            wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall Color Change
             wallColor.a = 255f / 255f; // 캐시 alpha 값 초기화
             switch (playerDirectionState)
             {

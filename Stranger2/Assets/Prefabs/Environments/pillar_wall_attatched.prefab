@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 7249805587453859636}
   - component: {fileID: 5026365504344936070}
   - component: {fileID: 7896805695759327501}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pillar_wall_attatched
   m_TagString: Pillar
   m_Icon: {fileID: 0}

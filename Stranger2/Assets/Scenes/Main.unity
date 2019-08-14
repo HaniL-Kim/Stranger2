@@ -128,6 +128,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2122878948}
     m_Modifications:
+    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_Name
+      value: pillar_wall_attatched
+      objectReference: {fileID: 0}
     - target: {fileID: 7754231940173961943, guid: 1258294c6f80d8440b02cae634886dc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -183,11 +188,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
-        type: 3}
-      propertyPath: m_Name
-      value: pillar_wall_attatched
-      objectReference: {fileID: 0}
     - target: {fileID: 5675558410254581287, guid: 1258294c6f80d8440b02cae634886dc3,
         type: 3}
       propertyPath: m_IsTrigger
@@ -227,7 +227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!60 &228201208
 PolygonCollider2D:
   m_ObjectHideFlags: 0
