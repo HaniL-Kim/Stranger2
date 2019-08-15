@@ -208,6 +208,66 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5026365504344936070, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896805695759327501, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544834536210617051, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336849249633965090, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084399215071634241, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071452462842574177, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2456993087170100996, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6027498650806937649, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8308458278202294764, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 803083524587709836, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408873523131673160, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428855594195433629, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1258294c6f80d8440b02cae634886dc3, type: 3}
 --- !u!1 &228201207
@@ -511,27 +571,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 974638673, guid: e217850c17aa5a7488708ed7d3b07d72, type: 3}
       propertyPath: rayClickDistance
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
-    - target: {fileID: 974638675, guid: e217850c17aa5a7488708ed7d3b07d72, type: 3}
-      propertyPath: wallSprite.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 974638675, guid: e217850c17aa5a7488708ed7d3b07d72, type: 3}
-      propertyPath: wallSprite.Array.data[0]
-      value: 
-      objectReference: {fileID: 3868512171371197706, guid: 086057358b594eb46bb512ef35593fd9,
-        type: 3}
-    - target: {fileID: 974638675, guid: e217850c17aa5a7488708ed7d3b07d72, type: 3}
-      propertyPath: wallSprite.Array.data[1]
-      value: 
-      objectReference: {fileID: -2692204000094071747, guid: 086057358b594eb46bb512ef35593fd9,
-        type: 3}
-    - target: {fileID: 974638675, guid: e217850c17aa5a7488708ed7d3b07d72, type: 3}
-      propertyPath: wallSprite.Array.data[2]
-      value: 
-      objectReference: {fileID: 4320786290098651181, guid: 086057358b594eb46bb512ef35593fd9,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e217850c17aa5a7488708ed7d3b07d72, type: 3}
 --- !u!4 &856692272 stripped

@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  rayClickDistance: 0.3
+  rayClickDistance: 0.6
 --- !u!114 &974638675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,4 +320,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VecMouseToPlayer: {x: 0, y: 0}
   playerDirection: {x: 0, y: 0}
-  wallSprite: []
+  wallCarrying: {fileID: 0}
+  wallSprite:
+  - {fileID: 3868512171371197706, guid: 086057358b594eb46bb512ef35593fd9, type: 3}
+  - {fileID: -2692204000094071747, guid: 086057358b594eb46bb512ef35593fd9, type: 3}
+  - {fileID: 4320786290098651181, guid: 086057358b594eb46bb512ef35593fd9, type: 3}
+  wallColor: {r: 0, g: 0, b: 0, a: 0}
+  carryWallCollider: {fileID: 0}

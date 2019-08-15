@@ -18,27 +18,33 @@ public class PlayerRenderer : MonoBehaviour
     private playerDirectionEnum playerDirectionState;
     public Sprite[] wallSprite;
 
-    private Color wallColor; // Player Behind Wall (Caching)
+    public Color wallColor; // Player Behind Wall (Caching)
     private Vector2 tempPos; // Player Behind Wall (Caching)
 
     public GameObject carryWallCollider; // CarryWall (Caching)
     private Quaternion tmpRotation; // CarryWall (Caching)
+    private Vector3 tmpVec3carryWall; // CarryWall (Caching)
+
+    private Vector2 tmpWallVec; // CombinedWallReset() Caching
+
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mousePos = new Vector2(0, 0);
+        mousePos = Vector2.zero;
         playerDirection = Vector2.down;
-        VecMouseToPlayer = new Vector2(0, 0);
+        VecMouseToPlayer = Vector2.zero;
         h_move = 0f;
         v_move = 0f;
 
-        wallColor = new Color(1, 1, 1, 1);
-        tempPos = new Vector2(0, 0);
-    }
+        wallColor = Color.white;
+        tempPos = Vector2.zero;
+        tmpWallVec = Vector2.zero;
+        tmpVec3carryWall = Vector3.one;
+}
 
-    private void FixedUpdate()
+private void FixedUpdate()
     {
         renderPlayerDirection();
         if (this.transform.childCount == 4)
@@ -129,66 +135,72 @@ public class PlayerRenderer : MonoBehaviour
             carryWallCollider = this.transform.GetChild(this.transform.childCount - 2).gameObject;
             carryWallCollider.SetActive(true);
             wallCarrying = this.transform.GetChild(this.transform.childCount - 1).gameObject;
-            wallCarrying.GetComponent<Transform>().localPosition = playerDirection / 5; // wall positioning
+            wallCarrying.GetComponent<Transform>().localPosition = playerDirection / 5; // wallCarrying localPosition
+
+            float tmpFloat = playerDirection.x * playerDirection.y; // wallCarrying localScale
+            tmpVec3carryWall.x = playerDirection.x * playerDirection.y;
+            if (tmpFloat != 0)
+            {
+                wallCarrying.GetComponent<Transform>().localScale = tmpVec3carryWall;
+            }
+
             wallCarrying.GetComponent<Collider2D>().enabled = false; // wall edgeCollider disable
-            wallColor.a = 128f / 255f; // 캐시 alpha 값 반투명 설정
+            wallColor.a = 128f / 255f; // alpha Change
             wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall Color Change
-            wallColor.a = 255f / 255f; // 캐시 alpha 값 초기화
+            wallColor.a = 255f / 255f; // alpha Reset
             switch (playerDirectionState)
             {
                 case playerDirectionEnum.N:
                     tmpRotation.eulerAngles = new Vector3(0, 0, 180);
-                    carryWallCollider.transform.rotation = tmpRotation;
                     wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[1];
-                    wallCarrying.GetComponent<SpriteRenderer>().flipX = false;
                     break;
                 case playerDirectionEnum.S:
                     tmpRotation.eulerAngles = new Vector3(0, 0, 0);
-                    carryWallCollider.transform.rotation = tmpRotation;
                     wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[1];
-                    wallCarrying.GetComponent<SpriteRenderer>().flipX = false;
                     break;
                 case playerDirectionEnum.NW:
                     tmpRotation.eulerAngles = new Vector3(0, 0, 205);
-                    carryWallCollider.transform.rotation = tmpRotation;
                     wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[2];
-                    wallCarrying.GetComponent<SpriteRenderer>().flipX = true;
                     break;
                 case playerDirectionEnum.SE:
                     tmpRotation.eulerAngles = new Vector3(0, 0, 25);
-                    carryWallCollider.transform.rotation = tmpRotation;
                     wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[2];
-                    wallCarrying.GetComponent<SpriteRenderer>().flipX = true;
                     break;
                 case playerDirectionEnum.SW:
                     tmpRotation.eulerAngles = new Vector3(0, 0, 335);
-                    carryWallCollider.transform.rotation = tmpRotation;
                     wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[2];
-                    wallCarrying.GetComponent<SpriteRenderer>().flipX = false;
                     break;
                 case playerDirectionEnum.NE:
                     tmpRotation.eulerAngles = new Vector3(0, 0, 155);
-                    carryWallCollider.transform.rotation = tmpRotation;
                     wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[2];
-                    wallCarrying.GetComponent<SpriteRenderer>().flipX = false;
                     break;
                 case playerDirectionEnum.W:
                     tmpRotation.eulerAngles = new Vector3(0, 0, 270);
-                    carryWallCollider.transform.rotation = tmpRotation;
                     wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[0];
-                    wallCarrying.GetComponent<SpriteRenderer>().flipX = false;
                     break;
                 case playerDirectionEnum.E:
                     tmpRotation.eulerAngles = new Vector3(0, 0, 90);
-                    carryWallCollider.transform.rotation = tmpRotation;
                     wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[0];
-                    wallCarrying.GetComponent<SpriteRenderer>().flipX = false;
                     break;
                 default:
                     break;
             }
+            carryWallCollider.transform.rotation = tmpRotation;
         }
     }
+
+    public void CombinedWallReset(GameObject pillarToCombine)
+    {
+        wallCarrying.transform.SetParent(pillarToCombine.transform);
+        tmpWallVec.x = -(playerDirection.x / 2);
+        tmpWallVec.y = -(playerDirection.y / 4);
+        wallCarrying.transform.localPosition = tmpWallVec;
+        wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall Color Change
+        wallCarrying.GetComponent<Collider2D>().enabled = true; // wall edgeCollider disable
+        wallCarrying = null;
+        carryWallCollider.SetActive(false);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D col)
     {
