@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+    public float moveSpeed; // Player Movement
     public float walkSpeed; // Player Movement(Inspector Input)
+    public float slowWalkSpeed; // Player Movement(Inspector Input)
     private Rigidbody2D rb; // Player Movement
     private Vector2 tryMove;
 
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public float rayClickDistance; // Inspector : 0.3f
     private int layerMask;
 
+    private GameObject objByHit;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -26,6 +29,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            PlayerAction();
+        }
+
         Vector2 tryMove = Vector2.zero;
 
         if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0)
@@ -37,12 +45,7 @@ public class PlayerController : MonoBehaviour
             tryMove.y += (Input.GetAxisRaw("Vertical"));
         }
 
-        rb.velocity = Vector2.ClampMagnitude(tryMove, 1f) * walkSpeed;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            PlayerAction();
-        }
+        rb.velocity = Vector2.ClampMagnitude(tryMove, 1f) * moveSpeed;
     }
 
     /* Side Walk, Front Walk, Back Walk animation 추가시 수정
@@ -92,7 +95,8 @@ public class PlayerController : MonoBehaviour
             { // Not Carrying
                 if (rayClickhit.collider.tag == "Wall")
                 {
-                    DeCombine(rayClickhit.collider.gameObject);
+                    objByHit = rayClickhit.collider.gameObject;
+                    playerRenderer.anim.SetTrigger("Combine");
                     return;
                 }
                 else
@@ -105,7 +109,8 @@ public class PlayerController : MonoBehaviour
             { // Carrying
                 if (rayClickhit.collider.tag == "Pillar")
                 {
-                    Combine(rayClickhit.collider.gameObject);
+                    objByHit = rayClickhit.collider.gameObject;
+                    playerRenderer.anim.SetTrigger("Combine");
                     return;
                 }
                 else if (rayClickhit.collider.tag == "Wall")
@@ -123,45 +128,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void DeCombine(GameObject wallObj)
-    {
-        /*
-         * Play DeCombine Animation
-         * After DeCombine Animation, SetParent obj to Player
-         */
-        // play DeCombine Anim
-        // Vector2 tmpWallDirection = wallObj.transform.localPosition;
+    private void CombineEvent()
+    { // used by event from AnimationClip
         if (playerDirection.SqrMagnitude() == 1)
-        { // Player Direction이 (N,W,S,E)방향일 때
-            Debug.Log("DeCombine Error : DeCombine() 하려면 Wall과 마주서야합니다.");
+        { // Player Direction이 (N,W,S,E)일 때
+            Debug.Log("CombineEvent Error : CombineEvent() 하려면 Wall과 마주서야합니다.");
             return;
         }
-        else
-        { // Player Direction이 (NW,SW,SE,NE)방향일 때
-            wallObj.transform.SetParent(this.transform); // if ((tmpWallDirection + playerDirection).SqrMagnitude() < 0.813f)
+
+        if (objByHit.tag == "Wall")
+        {
+            objByHit.transform.SetParent(this.transform); // if ((tmpWallDirection + playerDirection).SqrMagnitude() < 0.813f)
+            Debug.Log("DeCombine() 했습니다.");
+            return;
+        }
+        else if (objByHit.tag == "Pillar")
+        {
+            playerRenderer.CombinedWallReset(objByHit); // animation clip에 event로 적용!
             Debug.Log("Combine() 했습니다.");
             return;
-        }
-    }
-
-    private void Combine(GameObject pillarObj)
-    {
-        /*
-         * Play Combine Animation
-         * After Combine Animation, SetParent Player to PillarObj
-         */
-        // play Combine Anim
-
-        if (playerDirection.SqrMagnitude() == 1)
-        { // Player 방향이 (NWSE)방향일 때
-            Debug.Log("Combine Error : Combine() 하려면 Pillar 정면을 보고 있어야 합니다.");
-            return;
-        }
-        else
-        { // Player Direction이 (NW,SW,SE,NE)방향일 때
-            playerRenderer.CombinedWallReset(pillarObj);
-            Debug.Log("DeCombine() 했습니다.");
-
         }
     }
 
