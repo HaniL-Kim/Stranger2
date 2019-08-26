@@ -30,6 +30,9 @@ public class SeeThrough : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D col)
     {
-        col.gameObject.GetComponent<SpriteRenderer>().color = wallColor; // obj alpha 수정
+        if (col.tag == "Pillar" || col.tag == "Wall") // obj 태그 확인
+        {
+            col.gameObject.GetComponent<SpriteRenderer>().color = wallColor; // obj alpha 수정
+        }
     }
 }
