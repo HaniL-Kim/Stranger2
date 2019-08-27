@@ -24,6 +24,11 @@ public class PlayerRenderer : MonoBehaviour
     private Vector3 tmpWallVec; // CombinedWallReset() Caching
 
     private PlayerController playerController;
+
+    public bool isSlow = false;
+    public bool isCarryWall = false;
+    public int carryWallLayer;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -36,60 +41,22 @@ public class PlayerRenderer : MonoBehaviour
         tmpVec3carryWall = Vector3.one;
 
         playerController = this.GetComponent<PlayerController>();
+        carryWallLayer = anim.layerCount - 1; // Base : 0, Carray Wall : 1
     }
 
     private void FixedUpdate()
     {
-        renderPlayerDirection();
-        if (this.transform.childCount == 5)
+        RenderPlayer();
+        if (isCarryWall)
         {
-            carryWall();
+            RenderPlayerCarryWall();
+            isSlow = true;
         }
     }
 
-    private void renderPlayerDirection()
+    private void RenderPlayer()
     {
-
-        if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
-        { // toggle SlowIdle / Idle
-            if (Input.GetKey(KeyCode.Space))
-            { // SlowIdle
-                anim.SetBool("isSlowIdle", true);
-                anim.SetBool("isIdle", false);
-                anim.SetBool("isWalking", false);
-                anim.SetBool("isSlowWalking", false);
-            }
-            else
-            { // Idle
-                anim.SetBool("isIdle", true);
-                anim.SetBool("isSlowIdle", false);
-                anim.SetBool("isWalking", false);
-                anim.SetBool("isSlowWalking", false);
-            }
-        }
-        else
-        { // toggle SlowWalk / Walk
-            if (Input.GetKey(KeyCode.Space))
-            { // SlowWalk
-                playerController.moveSpeed = playerController.slowWalkSpeed;
-                anim.SetBool("isSlowWalking", true);
-                anim.SetBool("isWalking", false);
-                anim.SetBool("isIdle", false);
-                anim.SetBool("isSlowIdle", false);
-            }
-            else
-            { // Walk
-                playerController.moveSpeed = playerController.walkSpeed;
-                anim.SetBool("isWalking", true);
-                anim.SetBool("isIdle", false);
-                anim.SetBool("isSlowIdle", false);
-                anim.SetBool("isSlowWalking", false);
-            }
-        }
-
-
-
-        // 마우스 위치에 따른 캐릭터 방향 전환(Animation)
+        // 마우스 위치에 따른 애니메이션 전환
         mousePos = Input.mousePosition;
         mousePos = Cam.ScreenToWorldPoint(mousePos);
 
@@ -128,36 +95,116 @@ public class PlayerRenderer : MonoBehaviour
         }
         anim.SetFloat("Direction_X", playerDirection.x);
         anim.SetFloat("Direction_Y", playerDirection.y);
+
+        // 키입력에 따른 애니메이션 전환
+        /* 
+         * 1. toggle Slow <> Normal
+         * 2. toggle Idle
+         * 3. toggle Walk
+         * 4. toggle SideWalk
+         */
+
+        if(isCarryWall)
+        {
+            isSlow = true;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.Space))
+            { // toggle Slow <-> Normal
+                isSlow = true;
+            }
+            else
+            {
+                isSlow = false;
+            }
+        }
+
+        if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+        { // toggle Idle
+            if (isSlow)
+            { // Slow_Idle
+                anim.SetBool("isSlowIdle", true);
+                anim.SetBool("isIdle", false);
+                anim.SetBool("isWalking", false);
+                anim.SetBool("isSlowWalking", false);
+                anim.SetBool("isSideWalking", false);
+            }
+            else
+            { // Normal_Idle
+                anim.SetBool("isIdle", true);
+                anim.SetBool("isSlowIdle", false);
+                anim.SetBool("isWalking", false);
+                anim.SetBool("isSlowWalking", false);
+                anim.SetBool("isSideWalking", false);
+            }
+        }
+
+        else if (GetAngle(playerController.rb.velocity.normalized, playerDirection) == 90f
+            || GetAngle(playerController.rb.velocity.normalized, playerDirection) == 270f
+            ) // 캐릭터의 이동방향과 바라보는 방향이 수직일 때 / TODO : 차이점 확인 (이동방향 1.RigidBody(적용중) vs 2.Input GetKey)
+        { // toggle SideWalk
+            { // SideWalk
+                playerController.moveSpeed = playerController.sideWalkSpeed;
+                anim.SetBool("isSideWalking", true);
+                anim.SetBool("isIdle", false);
+                anim.SetBool("isSlowIdle", false);
+                anim.SetBool("isWalking", false);
+                anim.SetBool("isSlowWalking", false);
+            }
+        }
+        else
+        { // toggle Walk(키입력 있을 때 Default)
+            if (isSlow)
+            { // SlowWalk
+                playerController.moveSpeed = playerController.slowWalkSpeed;
+                anim.SetBool("isSlowWalking", true);
+                anim.SetBool("isWalking", false);
+                anim.SetBool("isIdle", false);
+                anim.SetBool("isSlowIdle", false);
+                anim.SetBool("isSideWalking", false);
+            }
+            else
+            { // Walk
+                playerController.moveSpeed = playerController.walkSpeed;
+                anim.SetBool("isWalking", true);
+                anim.SetBool("isIdle", false);
+                anim.SetBool("isSlowIdle", false);
+                anim.SetBool("isSlowWalking", false);
+                anim.SetBool("isSideWalking", false);
+            }
+        }
+
     }
 
 
-    private void carryWall()
+    private void RenderPlayerCarryWall()
     {
         /*
          * Adjust Wall position & alpha & sprite
          * activate wall collider
          * Play Carry Animation
          */
-        if (this.gameObject.transform.childCount == 5)
+        if (isCarryWall)
         { // child(0:movementCollider, 1:seeThroughWallCollider, 2:carryWallCollider(inactivate), 3:PlayerLegSprite, 4:Wall
-            carryWallCollider = this.transform.GetChild(this.transform.childCount - 3).gameObject;
+            carryWallCollider = this.transform.GetChild(this.transform.childCount - 3).gameObject; // get carryWallCollider Obj & activation
             carryWallCollider.SetActive(true);
-            wallCarrying = this.transform.GetChild(this.transform.childCount - 1).gameObject;
-            wallCarrying.GetComponent<Transform>().localPosition = playerDirection / 5; // wallCarrying localPosition
+            wallCarrying = this.transform.GetChild(this.transform.childCount - 1).gameObject; // get Wall Obj & positioning
+            wallCarrying.GetComponent<Transform>().localPosition = playerDirection / 5;
 
-            float tmpFloat = playerDirection.x * playerDirection.y; // wallCarrying localScale
+            float tmpFloat = playerDirection.x * playerDirection.y; // wall localScale adj(wall's Direction)
             tmpVec3carryWall.x = tmpFloat;
             if (tmpFloat != 0)
             {
                 wallCarrying.GetComponent<Transform>().localScale = tmpVec3carryWall;
             }
 
-            wallCarrying.GetComponent<Collider2D>().enabled = false; // wall edgeCollider disable
+            wallCarrying.GetComponent<Collider2D>().enabled = false; // wall's edgeCollider disable
             wallColor.a = 128f / 255f; // alpha Change
-            wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall Color Change
+            wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall's Color Change
             wallColor.a = 255f / 255f; // alpha Reset
             if (playerDirection.x == 1 || playerDirection.x == -1)
-            {
+            { // Player Direction에 따른 Wall Sprite 변경
                 wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[2];
                 if (playerDirection.x == 1)
                 {
@@ -227,5 +274,14 @@ public class PlayerRenderer : MonoBehaviour
             wallCarrying = null;
             carryWallCollider.SetActive(false);
         }
+    }
+    public float GetAngle(Vector3 vec1, Vector3 vec2)
+    {
+        float theta = Vector3.Dot(vec1, vec2) / (vec1.magnitude * vec2.magnitude);
+        Vector3 dirAngle = Vector3.Cross(vec1, vec2);
+        float angle = Mathf.Acos(theta) * Mathf.Rad2Deg;
+        if (dirAngle.z < 0.0f) angle = 360 - angle;
+        // Debug.Log("사잇각 : " + angle);
+        return angle;
     }
 }

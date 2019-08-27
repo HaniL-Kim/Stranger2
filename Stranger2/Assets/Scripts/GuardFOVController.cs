@@ -5,17 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class GuardFOVController : MonoBehaviour
 {
-    /*
-    [SerializeField] public bool m_bDebugMode;
-    
-    [Range(0f, 360f)] [SerializeField] public float m_horizontalViewAngle = 0f;
-    [SerializeField] public float m_viewRadius = 1f;
-    [Range(-180f, 180f)] [SerializeField] public float m_viewRotateZ = 0f; // rotation값 변경 없이 시야 회전시 사용
-    private float m_horizontalViewHalfAngle = 0f;
-    */
-
     // private List<Collider2D> hitedTargetContainer = new List<Collider2D>();
-
     [SerializeField] private int layerMask; // LayerMask(Wall와 Pillar만 체크)
     [SerializeField] private Tilemap FOVtileMap;
     [SerializeField] private Tile FOVCheck = null; // inspector
@@ -27,7 +17,6 @@ public class GuardFOVController : MonoBehaviour
 
     public bool debugMode;
     Vector3[] Vec3ForGizmo;
-    // [SerializeField] private Color TmpColor; // 
 
     private void Awake()
     {
@@ -36,9 +25,7 @@ public class GuardFOVController : MonoBehaviour
         FOVDirection = new Vector3(1, 1, 0);
         FOVcurrentCell = Vector3Int.zero;
 
-        // layerMask = 1 << LayerMask.NameToLayer("Wall");  
         layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Pillar"));// Wall, Pillar 만 체크
-        // layerMask = ~layerMask // 체크무시
         Vec3ForGizmo = new Vector3[FOVRange * 2 + 1];
     }
 
@@ -157,46 +144,7 @@ public class GuardFOVController : MonoBehaviour
         DrawFOV = false;
     } // End of DrawGuardFOV()
 
-    private bool IsPointInFigure(Vector3Int pointToCheck, Vector3Int[] points)
-    {
-        bool result = false;
-        int crosses = 0;
-        for (int i = 0; i < points.Length; i++)
-        {
-            int j = (i + 1) % points.Length;
-            if ((points[i].y > pointToCheck.y) != (points[j].y > pointToCheck.y))
-            { // pointToCheck의 y좌표가 선분 (points[i], points[j])의 y좌표 사이에 있음
-                double atX = (points[j].x - points[i].x) * (pointToCheck.y - points[i].y) / (points[j].y - points[i].y) + points[i].x; //atX는 점 pointToCheck를 지나는 수평선과 선분 (points[i], points[j])의 교점의 x좌표
-                if (pointToCheck.x < atX)
-                { // atX가 pointToCheck.x보다 오른쪽(+값)이면 교점의 갯수 추가
-                    crosses++;
-                }
-            }
-        }
-        result = crosses % 2 > 0; // 교점의 개수가 짝수면 true = inside
-        return result;
-    }
-
-    private bool IsPointInTriangle(Vector3 pointToCheck, Vector3 pointA, Vector3 pointB)
-    {
-        /*
-         * PointP = pointToCheck, PointC = zero
-         * PA x PC, PC x PB, PB x PA (x는 외적)을 각각 구해서 세식의 값이 모두 양수(0제외)이거나 모두 음수이면 삼각형 내부로 판단.
-         */
-        bool result = false;
-        Vector3 pointC, pointP;
-        float Cross1, Cross2, Cross3;
-        pointC = this.transform.position;
-        pointP = pointToCheck;
-        Cross1 = Vector3.Cross(pointP - pointA, pointP - pointC).z;
-        Cross2 = Vector3.Cross(pointP - pointC, pointP - pointB).z;
-        Cross3 = Vector3.Cross(pointP - pointB, pointP - pointA).z;
-        if ((Cross1 > 0 && Cross2 > 0 && Cross3 > 0) || (Cross1 < 0 && Cross2 < 0 && Cross3 < 0))
-        {
-            result = true;
-        }
-        return result;
-    }
+    
 
     private Vector3 AxialSymmetryPoint(Vector3 pointToSym, Vector3 axis)
     { // axis : ax + by + c = 0
@@ -215,27 +163,7 @@ public class GuardFOVController : MonoBehaviour
         point.y = y2;
 
         return point;
-        // End of AxialSymmetryPoint()
-    }
+    } // End of AxialSymmetryPoint()
 
-    // End Of Script
-}
-// TmpFOVPoint.y = j * tmpAxix;
-/*Change
-TmpFOVPoint.y = Mathf.CeilToInt(TmpFOVPoint.y + (0.5f * FOVDirection.y));
-TmpFOVPointCross.x = TmpFOVPoint.y;
-TmpFOVPointCross.y = TmpFOVPoint.x;
 
-FOVtileMap.SetTile(TmpFOVPoint, FOVCheck);
-FOVtileMap.SetTile(TmpFOVPointCross, FOVCheck);
-}
-TmpFOVPoint.y = Mathf.CeilToInt(TmpFOVPoint.x - (0.5f * FOVDirection.x));
-TmpFOVPoint.x += FOVDirection.x;
-/*
-/*
-* Algo B(Change Tile Color)
-* TmpColor.a = 1f;
-* tileMap.SetTileFlags(TmpFOVPoint, TileFlags.None);
-* FOVtileMap.SetColor((TmpFOVPoint, TmpColor);
-* this.tilemap.RefreshAllTiles();
-*/
+} // End Of Script

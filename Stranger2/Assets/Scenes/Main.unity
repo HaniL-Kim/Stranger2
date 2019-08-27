@@ -662,6 +662,10 @@ PrefabInstance:
       propertyPath: rayClickDistance
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 974638673, guid: 338efbd32dd6cd64dbaa99b02e92246c, type: 3}
+      propertyPath: sideWalkSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4835965221056790977, guid: 338efbd32dd6cd64dbaa99b02e92246c,
         type: 3}
       propertyPath: m_SortingOrder
@@ -686,11 +690,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1315406912}
     m_Modifications:
-    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
-        type: 3}
-      propertyPath: m_Name
-      value: pillar_wall_attatched
-      objectReference: {fileID: 0}
     - target: {fileID: 7754231940173961943, guid: 1258294c6f80d8440b02cae634886dc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -746,6 +745,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_Name
+      value: pillar_wall_attatched
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1258294c6f80d8440b02cae634886dc3, type: 3}
 --- !u!4 &964175831 stripped
@@ -761,11 +765,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1315406912}
     m_Modifications:
-    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
-        type: 3}
-      propertyPath: m_Name
-      value: pillar_wall_attatched
-      objectReference: {fileID: 0}
     - target: {fileID: 7754231940173961943, guid: 1258294c6f80d8440b02cae634886dc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -820,6 +819,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_Name
+      value: pillar_wall_attatched
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1258294c6f80d8440b02cae634886dc3, type: 3}
@@ -16294,11 +16298,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1315406912}
     m_Modifications:
-    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
-        type: 3}
-      propertyPath: m_Name
-      value: pillar_wall_attatched
-      objectReference: {fileID: 0}
     - target: {fileID: 7754231940173961943, guid: 1258294c6f80d8440b02cae634886dc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16353,6 +16352,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_Name
+      value: pillar_wall_attatched
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1258294c6f80d8440b02cae634886dc3, type: 3}
@@ -16482,11 +16486,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1315406912}
     m_Modifications:
-    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
-        type: 3}
-      propertyPath: m_Name
-      value: pillar_wall_attatched
-      objectReference: {fileID: 0}
     - target: {fileID: 7754231940173961943, guid: 1258294c6f80d8440b02cae634886dc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16542,6 +16541,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_Name
+      value: pillar_wall_attatched
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1258294c6f80d8440b02cae634886dc3, type: 3}
 --- !u!1001 &1768226206
@@ -16551,11 +16555,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1315406912}
     m_Modifications:
-    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
-        type: 3}
-      propertyPath: m_Name
-      value: pillar_wall_attatched
-      objectReference: {fileID: 0}
     - target: {fileID: 7754231940173961943, guid: 1258294c6f80d8440b02cae634886dc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16610,6 +16609,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3958601113427736244, guid: 1258294c6f80d8440b02cae634886dc3,
+        type: 3}
+      propertyPath: m_Name
+      value: pillar_wall_attatched
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1258294c6f80d8440b02cae634886dc3, type: 3}

@@ -5,27 +5,25 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public float moveSpeed; // Player Movement
-    public float walkSpeed; // Player Movement(Inspector Input)
-    public float slowWalkSpeed; // Player Movement(Inspector Input)
-    private Rigidbody2D rb; // Player Movement
+    [SerializeField] public float moveSpeed; // Player Movement
+    [SerializeField] public float walkSpeed; // Player Movement(Inspector Input)
+    [SerializeField] public float slowWalkSpeed; // Player Movement(Inspector Input)
+    [SerializeField] public float sideWalkSpeed; // Player Movement(Inspector Input)
+    [SerializeField] private float rayClickDistance; // Inspector : 0.3f
+
+    public Rigidbody2D rb; // Player Movement
     private Vector2 tryMove;
-
-
     private PlayerRenderer playerRenderer;
     private Vector3 playerDirection;
     private RaycastHit2D rayClickhit; // Click으로 Wall collider 감지(DeCombine)
-    public float rayClickDistance; // Inspector : 0.3f
+    private GameObject objByHit;
     private int layerMask;
 
-    private GameObject objByHit;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerRenderer = this.GetComponent<PlayerRenderer>();
-        layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Pillar"));// Wall, Pillar 만 체크
-
-        // layerMask = ~layerMask; 해당 레이어 제외하고 모든 충돌 체크
+        layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Pillar"));// Wall, Pillar 만 체크 / layerMask = ~layerMask; 해당 레이어 제외
     }
 
     void FixedUpdate()
@@ -48,34 +46,18 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = Vector2.ClampMagnitude(tryMove, 1f) * moveSpeed;
     }
-
-    /* Side Walk, Front Walk, Back Walk animation 추가시 수정
-    if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0)
-    if (Input.GetKey(KeyCode.W)) // side walk
-        Play sideWalk Anim
-    if (Input.GetKey(KeyCode.W || KeyCode.up)
-        tryMove += Vector3Int.up;
-        Play frontWalk Anim
-    if (Input.GetKey(KeyCode.S || KeyCode.down))
-        tryMove += Vector3Int.down;
-        Play backWalk Anim
-    */
-    /* space bar 입력시 slowWalk 애니메이션 재생 > walkSpeed 조정
-    if (Input.GetKey(KeyCode.Space))
-    {
-        rb.velocity = Vector3.ClampMagnitude(tryMove, 1f) * slowWalkSpeed;
-        return;
-    }
+    /* Side Walk, Carrying Walk
+     * 
     */
 
     private void PlayerAction()
     {
         playerDirection = playerRenderer.playerDirection;
         if (this.transform.childCount == 4)
-        {
-            rayClickhit = Physics2D.Raycast(this.transform.position, playerDirection, rayClickDistance, layerMask); // 맨손일땐 몸에서부터 ray
+        { // 맨손 일 때
+            rayClickhit = Physics2D.Raycast(this.transform.position, playerDirection, rayClickDistance, layerMask); // 몸에서부터 ray 시작
 
-            Debug.DrawRay(this.transform.position, playerDirection * rayClickDistance, Color.blue, 0.5f); // 맨손일땐 파란색
+            Debug.DrawRay(this.transform.position, playerDirection * rayClickDistance, Color.blue, 0.5f); // 디버그레이 파란색
             if (rayClickhit.collider == null)
             {
                 Debug.Log("Action : 맨손으로 무언가 하려 했지만 근처에 아무것도 없습니다.");
@@ -151,12 +133,16 @@ public class PlayerController : MonoBehaviour
         if (objByHit.tag == "Wall")
         {
             objByHit.transform.SetParent(this.transform); // if ((tmpWallDirection + playerDirection).SqrMagnitude() < 0.813f)
+            playerRenderer.isCarryWall = true;
+            playerRenderer.anim.SetLayerWeight(playerRenderer.carryWallLayer, 1);
             Debug.Log("DeCombine() 했습니다.");
             return;
         }
         else if (objByHit.tag == "Pillar")
         {
             playerRenderer.CombinedWallReset(objByHit); // animation clip에 event로 적용!
+            playerRenderer.isCarryWall = false;
+            playerRenderer.anim.SetLayerWeight(playerRenderer.carryWallLayer, 0);
             Debug.Log("Combine() 했습니다.");
             return;
         }
