@@ -21,7 +21,7 @@ public class SeeThrough : MonoBehaviour
             tempPos = col.GetComponent<Transform>().position; // obj 좌표 획득
             if (this.transform.position.y - tempPos.y > 0.01f)
             { // obj의 y좌표가 player.wallSeeThroughCollider의 y좌표보다 클 때
-                wallColor.a = 128f / 255f; // 캐시 alpha 값 반투명 설정
+                wallColor.a = 50f / 255f; // 캐시 alpha 값 반투명 설정
                 col.gameObject.GetComponent<SpriteRenderer>().color = wallColor; // obj alpha 수정
                 wallColor.a = 255f / 255f; // 캐시 alpha 값 초기화
             }

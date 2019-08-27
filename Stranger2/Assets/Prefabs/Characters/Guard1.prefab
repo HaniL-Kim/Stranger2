@@ -44,15 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a255660896e0f8347af7ed348be0ea07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_viewFOVMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  m_viewTargetMask:
-    serializedVersion: 2
-    m_Bits: 512
-  m_viewObstacleMask:
-    serializedVersion: 2
-    m_Bits: 256
+  layerMask: 0
   FOVtileMap: {fileID: 0}
   FOVCheck: {fileID: 11400000, guid: 5ceb3ec8760c12744a731b746524343f, type: 2}
   ClearFOV: 1

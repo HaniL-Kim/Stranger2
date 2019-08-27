@@ -26,13 +26,17 @@ public class PlayerController : MonoBehaviour
         layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Pillar"));// Wall, Pillar 만 체크 / layerMask = ~layerMask; 해당 레이어 제외
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("GetMouseButtonDown");
             PlayerAction();
         }
+    }
 
+    void FixedUpdate()
+    {
         Vector2 tryMove = Vector2.zero;
 
         if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0)
@@ -86,7 +90,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (this.transform.childCount == 5)
         {
-            rayClickhit = Physics2D.Raycast(this.transform.position + (playerDirection.normalized * 0.5f), playerDirection, rayClickDistance*0.3f, layerMask); // 벽들고 있을땐 벽에서부터 ray, 거리 1/3
+            rayClickhit = Physics2D.Raycast(this.transform.position + (playerDirection.normalized * 0.5f), playerDirection, rayClickDistance * 0.3f, layerMask); // 벽들고 있을땐 벽에서부터 ray, 거리 1/3
             Debug.DrawRay(this.transform.position + (playerDirection.normalized * 0.5f), playerDirection * rayClickDistance * 0.3f, Color.red, 0.5f); // 벽들고 있을땐 빨간색
             if (rayClickhit.collider == null)
             {

@@ -331,23 +331,6 @@ Sprite:
   m_PhysicsShape: []
   m_Bones: []
   m_SpriteID: 
---- !u!1 &69227934 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2674462721138300393, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-    type: 3}
-  m_PrefabInstance: {fileID: 767876538}
-  m_PrefabAsset: {fileID: 0}
---- !u!210 &69227937
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69227934}
-  m_Enabled: 1
-  m_SortingLayerID: 1957028637
-  m_SortingLayer: 2
-  m_SortingOrder: 0
 --- !u!4 &72142325 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7754231940173961943, guid: 1258294c6f80d8440b02cae634886dc3,
@@ -592,94 +575,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808446487894662009, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808446487894662009, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1957028637
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808446487894662009, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5151303853902358790, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5151303853902358790, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5151303853902358790, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1957028637
-      objectReference: {fileID: 0}
-    - target: {fileID: 5151303853902358790, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6143832600912084026, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6143832600912084026, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6143832600912084026, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1957028637
-      objectReference: {fileID: 0}
-    - target: {fileID: 6143832600912084026, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2417954648897926813, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 2417954648897926813, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 974638673, guid: 338efbd32dd6cd64dbaa99b02e92246c, type: 3}
-      propertyPath: rayClickDistance
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 974638673, guid: 338efbd32dd6cd64dbaa99b02e92246c, type: 3}
-      propertyPath: sideWalkSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4835965221056790977, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4835965221056790977, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1957028637
-      objectReference: {fileID: 0}
-    - target: {fileID: 4835965221056790977, guid: 338efbd32dd6cd64dbaa99b02e92246c,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 338efbd32dd6cd64dbaa99b02e92246c, type: 3}

@@ -43,14 +43,73 @@ public class PlayerRenderer : MonoBehaviour
         playerController = this.GetComponent<PlayerController>();
         carryWallLayer = anim.layerCount - 1; // Base : 0, Carray Wall : 1
     }
+    private void Update()
+    {
+        if (!isCarryWall)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            { // toggle Slow <-> Normal
+                isSlow = true;
+                anim.SetBool("isSlow", true);
+                return;
+            }
+            else
+            {
+                isSlow = false;
+                anim.SetBool("isSlow", false);
+                return;
+            }
+        }
+    }
 
     private void FixedUpdate()
     {
+        // 키입력에 따른 애니메이션 전환
+        /* 
+         * 1. toggle Idle
+         * 2. toggle SideWalk
+         * 3. toggle Walk
+         */
+
+        if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+        { // toggle Idle
+            anim.SetBool("isWalking", false);
+            anim.SetBool("isSideWalking", false);
+        }
+
+        else if (GetAngle(playerController.rb.velocity.normalized, playerDirection) == 90f
+            || GetAngle(playerController.rb.velocity.normalized, playerDirection) == 270f
+            ) // 캐릭터의 이동방향과 바라보는 방향이 수직일 때 / TODO : 차이점 확인 (이동방향 1.RigidBody(적용중) vs 2.Input GetKey)
+        { // toggle SideWalk
+            { // SideWalk
+                playerController.moveSpeed = playerController.sideWalkSpeed;
+                anim.SetBool("isSideWalking", true);
+                anim.SetBool("isWalking", false);
+            }
+        }
+        else
+        { // toggle Walk(방향키 입력만 있을 때(Carrying / Normal)
+            if (isSlow)
+            { // SlowWalk(Carrying)
+                playerController.moveSpeed = playerController.slowWalkSpeed;
+                anim.SetBool("isWalking", true);
+                anim.SetBool("isSideWalking", false);
+            }
+            else
+            { // Walk(Normal)
+                playerController.moveSpeed = playerController.walkSpeed;
+                anim.SetBool("isWalking", true);
+                anim.SetBool("isSideWalking", false);
+            }
+        }
+
         RenderPlayer();
         if (isCarryWall)
         {
-            RenderPlayerCarryWall();
             isSlow = true;
+            anim.SetBool("isSlow", true);
+            RenderPlayerCarryWall();
+            return;
         }
     }
 
@@ -96,85 +155,7 @@ public class PlayerRenderer : MonoBehaviour
         anim.SetFloat("Direction_X", playerDirection.x);
         anim.SetFloat("Direction_Y", playerDirection.y);
 
-        // 키입력에 따른 애니메이션 전환
-        /* 
-         * 1. toggle Slow <> Normal
-         * 2. toggle Idle
-         * 3. toggle Walk
-         * 4. toggle SideWalk
-         */
-
-        if(isCarryWall)
-        {
-            isSlow = true;
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.Space))
-            { // toggle Slow <-> Normal
-                isSlow = true;
-            }
-            else
-            {
-                isSlow = false;
-            }
-        }
-
-        if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
-        { // toggle Idle
-            if (isSlow)
-            { // Slow_Idle
-                anim.SetBool("isSlowIdle", true);
-                anim.SetBool("isIdle", false);
-                anim.SetBool("isWalking", false);
-                anim.SetBool("isSlowWalking", false);
-                anim.SetBool("isSideWalking", false);
-            }
-            else
-            { // Normal_Idle
-                anim.SetBool("isIdle", true);
-                anim.SetBool("isSlowIdle", false);
-                anim.SetBool("isWalking", false);
-                anim.SetBool("isSlowWalking", false);
-                anim.SetBool("isSideWalking", false);
-            }
-        }
-
-        else if (GetAngle(playerController.rb.velocity.normalized, playerDirection) == 90f
-            || GetAngle(playerController.rb.velocity.normalized, playerDirection) == 270f
-            ) // 캐릭터의 이동방향과 바라보는 방향이 수직일 때 / TODO : 차이점 확인 (이동방향 1.RigidBody(적용중) vs 2.Input GetKey)
-        { // toggle SideWalk
-            { // SideWalk
-                playerController.moveSpeed = playerController.sideWalkSpeed;
-                anim.SetBool("isSideWalking", true);
-                anim.SetBool("isIdle", false);
-                anim.SetBool("isSlowIdle", false);
-                anim.SetBool("isWalking", false);
-                anim.SetBool("isSlowWalking", false);
-            }
-        }
-        else
-        { // toggle Walk(키입력 있을 때 Default)
-            if (isSlow)
-            { // SlowWalk
-                playerController.moveSpeed = playerController.slowWalkSpeed;
-                anim.SetBool("isSlowWalking", true);
-                anim.SetBool("isWalking", false);
-                anim.SetBool("isIdle", false);
-                anim.SetBool("isSlowIdle", false);
-                anim.SetBool("isSideWalking", false);
-            }
-            else
-            { // Walk
-                playerController.moveSpeed = playerController.walkSpeed;
-                anim.SetBool("isWalking", true);
-                anim.SetBool("isIdle", false);
-                anim.SetBool("isSlowIdle", false);
-                anim.SetBool("isSlowWalking", false);
-                anim.SetBool("isSideWalking", false);
-            }
-        }
-
+        
     }
 
 
@@ -200,7 +181,7 @@ public class PlayerRenderer : MonoBehaviour
             }
 
             wallCarrying.GetComponent<Collider2D>().enabled = false; // wall's edgeCollider disable
-            wallColor.a = 128f / 255f; // alpha Change
+            wallColor.a = 50f / 255f; // alpha Change
             wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall's Color Change
             wallColor.a = 255f / 255f; // alpha Reset
             if (playerDirection.x == 1 || playerDirection.x == -1)
