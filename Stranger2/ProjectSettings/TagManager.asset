@@ -21,7 +21,7 @@ TagManager:
   - Player
   - FOV
   - Guard
-  - 
+  - Pillar
   - 
   - 
   - 
@@ -47,6 +47,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 361320281
+    locked: 0
+  - name: Objects
+    uniqueID: 1957028637
     locked: 0
   - name: Player
     uniqueID: 1052051609

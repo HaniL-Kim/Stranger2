@@ -14,12 +14,9 @@ public class GuardFOVController : MonoBehaviour
     private float m_horizontalViewHalfAngle = 0f;
     */
 
-    [SerializeField] private LayerMask m_viewFOVMask; // FOV LayerMask
-    [SerializeField] private LayerMask m_viewTargetMask; // Player LayerMask
-    [SerializeField] private LayerMask m_viewObstacleMask; // Wall LayerMask
+    // private List<Collider2D> hitedTargetContainer = new List<Collider2D>();
 
-    private List<Collider2D> hitedTargetContainer = new List<Collider2D>(); // 
-
+    [SerializeField] private int layerMask; // LayerMask(Wall와 Pillar만 체크)
     [SerializeField] private Tilemap FOVtileMap;
     [SerializeField] private Tile FOVCheck = null; // inspector
     [SerializeField] private bool ClearFOV = true; // inspector
@@ -29,20 +26,20 @@ public class GuardFOVController : MonoBehaviour
     [SerializeField] private Vector3Int FOVcurrentCell;
 
     public bool debugMode;
-
-    private int layerMask;
     Vector3[] Vec3ForGizmo;
     // [SerializeField] private Color TmpColor; // 
+
     private void Awake()
     {
         FOVtileMap = this.transform.GetComponentInChildren<Tilemap>();
-        FOVRange = 10;
+        FOVRange = 20;
         FOVDirection = new Vector3(1, 1, 0);
         FOVcurrentCell = Vector3Int.zero;
 
-        layerMask = 1 << LayerMask.NameToLayer("Wall");  // Wall만 충돌 체크
+        // layerMask = 1 << LayerMask.NameToLayer("Wall");  
+        layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Pillar"));// Wall, Pillar 만 체크
+        // layerMask = ~layerMask // 체크무시
         Vec3ForGizmo = new Vector3[FOVRange * 2 + 1];
-        // TmpColor = new Color(1, 1, 1, 1);
     }
 
     private void FixedUpdate()

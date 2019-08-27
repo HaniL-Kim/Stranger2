@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
 
     private PlayerRenderer playerRenderer;
-    private Vector2 playerDirection;
+    private Vector3 playerDirection;
     private RaycastHit2D rayClickhit; // Click으로 Wall collider 감지(DeCombine)
     public float rayClickDistance; // Inspector : 0.3f
     private int layerMask;
@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerRenderer = this.GetComponent<PlayerRenderer>();
-        layerMask = 1 << LayerMask.NameToLayer("Wall");  // Wall만 충돌 체크
+        layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Pillar"));// Wall, Pillar 만 체크
+
         // layerMask = ~layerMask; 해당 레이어 제외하고 모든 충돌 체크
     }
 
@@ -70,71 +71,82 @@ public class PlayerController : MonoBehaviour
     private void PlayerAction()
     {
         playerDirection = playerRenderer.playerDirection;
-        rayClickhit = Physics2D.Raycast(this.transform.position, playerDirection, rayClickDistance, layerMask);
-        Debug.DrawRay(this.transform.position, playerDirection * rayClickDistance, Color.red, 0.1f); // Click Ray Check
-
-        if (rayClickhit.collider == null)
+        if (this.transform.childCount == 4)
         {
-            if (this.transform.childCount == 3)
+            rayClickhit = Physics2D.Raycast(this.transform.position, playerDirection, rayClickDistance, layerMask); // 맨손일땐 몸에서부터 ray
+
+            Debug.DrawRay(this.transform.position, playerDirection * rayClickDistance, Color.blue, 0.5f); // 맨손일땐 파란색
+            if (rayClickhit.collider == null)
             {
                 Debug.Log("Action : 맨손으로 무언가 하려 했지만 근처에 아무것도 없습니다.");
                 return;
             }
-            else if (this.transform.childCount == 4)
+            else
             {
-                Debug.Log("Action : Wall을 들고 무언가 하려했지만 근처에 아무것도 없습니다.");
-                return;
-            }
-            else return;
-        }
-
-        else
-        // Debug.Log(rayClickhit.collider.name);
-        {
-            if (this.transform.childCount == 3)
-            { // Not Carrying
                 if (rayClickhit.collider.tag == "Wall")
-                {
+                { // tag가 wall 일 때
                     objByHit = rayClickhit.collider.gameObject;
-                    playerRenderer.anim.SetTrigger("Combine");
+                    if (Vector3.SqrMagnitude(playerDirection) != 1)
+                    { // Player Direction : NW,SE,SW,SE
+                        playerRenderer.anim.SetTrigger("Combine");
+                        return;
+                    }
+                    else  // Player Direction : N,W,S,E
+                        Debug.Log("CombineEvent Error : CombineEvent() 하려면 Wall과 마주서야합니다.");
                     return;
                 }
                 else
-                {
+                {// tag가 wall 이 아닐 때
                     Debug.Log("Action : [" + rayClickhit.collider.name + "] 에 무언가 시도했지만 아무일도 일어나지 않습니다.");
                     return;
                 }
             }
-            else if (this.transform.childCount == 4)
-            { // Carrying
+        }
+        else if (this.transform.childCount == 5)
+        {
+            rayClickhit = Physics2D.Raycast(this.transform.position + (playerDirection.normalized * 0.5f), playerDirection, rayClickDistance*0.3f, layerMask); // 벽들고 있을땐 벽에서부터 ray, 거리 1/3
+            Debug.DrawRay(this.transform.position + (playerDirection.normalized * 0.5f), playerDirection * rayClickDistance * 0.3f, Color.red, 0.5f); // 벽들고 있을땐 빨간색
+            if (rayClickhit.collider == null)
+            {
+                Debug.Log("Action : Wall을 들고 무언가 하려했지만 근처에 아무것도 없습니다.");
+                return;
+            }
+            else
+            {
                 if (rayClickhit.collider.tag == "Pillar")
-                {
+                { // tag가 Pillar 일 때
                     objByHit = rayClickhit.collider.gameObject;
-                    playerRenderer.anim.SetTrigger("Combine");
-                    return;
+                    if (Vector3.SqrMagnitude(playerDirection) != 1)
+                    { // Player Direction : NW,SE,SW,SE
+                        playerRenderer.anim.SetTrigger("Combine");
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log("CombineEvent Error : CombineEvent() 하려면 Wall과 마주서야합니다.");
+                        return;
+                    }
                 }
+
                 else if (rayClickhit.collider.tag == "Wall")
                 {
                     Debug.Log("Action : Combine() 하려했지만 [" + rayClickhit.collider.name + "] 에 가로막혀 있습니다.");
                     return;
                 }
+
                 else
                 {
                     Debug.Log("Action : Wall을 들고 [" + rayClickhit.collider.name + "] 에 무언가 시도했지만 아무일도 일어나지 않습니다.");
                     return;
                 }
             }
-            else return;
         }
+
     }
 
     private void CombineEvent()
     { // used by event from AnimationClip
-        if (playerDirection.SqrMagnitude() == 1)
-        { // Player Direction이 (N,W,S,E)일 때
-            Debug.Log("CombineEvent Error : CombineEvent() 하려면 Wall과 마주서야합니다.");
-            return;
-        }
+
 
         if (objByHit.tag == "Wall")
         {

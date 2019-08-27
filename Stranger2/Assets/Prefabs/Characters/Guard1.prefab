@@ -56,9 +56,11 @@ MonoBehaviour:
   FOVtileMap: {fileID: 0}
   FOVCheck: {fileID: 11400000, guid: 5ceb3ec8760c12744a731b746524343f, type: 2}
   ClearFOV: 1
+  DrawFOV: 0
   FOVRange: 0
   FOVDirection: {x: 0, y: 0, z: 0}
   FOVcurrentCell: {x: 0, y: 0, z: 0}
+  debugMode: 0
 --- !u!1 &3540403377753749743
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +130,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1052051609
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2475813138582106267, guid: f340401e13d4ba248a3ec9570a648cd8,
     type: 3}
@@ -153,7 +155,6 @@ GameObject:
   - component: {fileID: 8067956792029093376}
   - component: {fileID: 3975617581886750727}
   - component: {fileID: 6131152905331460009}
-  - component: {fileID: 264637720}
   m_Layer: 10
   m_Name: FOV
   m_TagString: FOV
@@ -309,18 +310,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!114 &264637720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6976482379319518623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3e2d1837cc358245ae9acc05be2dcad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8631560383900568736
 GameObject:
   m_ObjectHideFlags: 0

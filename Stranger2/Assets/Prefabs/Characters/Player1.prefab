@@ -104,9 +104,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0}
-      - {x: -0.05, y: -1.3}
-      - {x: 0.05, y: -1.3}
+    - - {x: -0.1, y: 0}
+      - {x: -0.1, y: -1.3}
+      - {x: 0.1, y: -1.3}
+      - {x: 0.1, y: 0}
 --- !u!114 &1533902703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,8 +248,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1052051609
-  m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -259,7 +260,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &5127859628386633248
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,8 +329,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1052051609
-  m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -340,7 +341,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &5311934856142803703
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,8 +410,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1052051609
-  m_SortingLayer: 2
-  m_SortingOrder: 4
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -421,7 +422,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &6137995328791577467
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,8 +491,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1052051609
-  m_SortingLayer: 2
-  m_SortingOrder: 3
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -502,7 +503,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &8531613500759153340
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,9 +595,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0
-  walkSpeed: 1
-  slowWalkSpeed: 2
-  rayClickDistance: 3
+  walkSpeed: 2
+  slowWalkSpeed: 1
+  rayClickDistance: 1
 --- !u!114 &974638675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,9 +611,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
+  Cam: {fileID: 0}
+  mousePos: {x: 0, y: 0}
   VecMouseToPlayer: {x: 0, y: 0}
   playerDirection: {x: 0, y: 0}
   wallCarrying: {fileID: 0}
-  wallSprite: []
+  wallSprite:
+  - {fileID: 3868512171371197706, guid: 086057358b594eb46bb512ef35593fd9, type: 3}
+  - {fileID: -2692204000094071747, guid: 086057358b594eb46bb512ef35593fd9, type: 3}
+  - {fileID: 4320786290098651181, guid: 086057358b594eb46bb512ef35593fd9, type: 3}
   wallColor: {r: 0, g: 0, b: 0, a: 0}
   carryWallCollider: {fileID: 0}

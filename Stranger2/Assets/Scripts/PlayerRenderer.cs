@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerRenderer : MonoBehaviour
 {
     public Animator anim;
-    private Camera Cam; // Player Rotation - Mouse Position Check
-    private Vector2 mousePos; // Player Rotation - Mouse Position Check
-    public Vector2 VecMouseToPlayer;
+    public Camera Cam; // Player Rotation - Mouse Position Check
+    public Vector3 mousePos; // Player Rotation - Mouse Position Check
+    public Vector3 VecMouseToPlayer;
 
-    public Vector2 playerDirection;
-    public GameObject wallCarrying; // PlayerController.Cobine()에서 참조
+    public Vector3 playerDirection;
+    public GameObject wallCarrying; // PlayerController.Combine()에서 참조
 
     // private enum playerDirectionEnum { N, NW, W, SW, S, SE, E, NE };
     // private playerDirectionEnum playerDirectionState;
@@ -21,18 +21,18 @@ public class PlayerRenderer : MonoBehaviour
     public GameObject carryWallCollider; // CarryWall (Caching)
     private Quaternion tmpRotation; // CarryWall (Caching)
     private Vector3 tmpVec3carryWall; // CarryWall (Caching)
-    private Vector2 tmpWallVec; // CombinedWallReset() Caching
+    private Vector3 tmpWallVec; // CombinedWallReset() Caching
 
     private PlayerController playerController;
     private void Awake()
     {
         anim = GetComponent<Animator>();
         Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mousePos = Vector2.zero;
-        playerDirection = Vector2.down;
-        VecMouseToPlayer = Vector2.zero;
+        mousePos = Vector3.zero;
+        playerDirection = Vector3.down;
+        VecMouseToPlayer = Vector3.zero;
         wallColor = Color.white;
-        tmpWallVec = Vector2.zero;
+        tmpWallVec = Vector3.zero;
         tmpVec3carryWall = Vector3.one;
 
         playerController = this.GetComponent<PlayerController>();
@@ -41,7 +41,7 @@ public class PlayerRenderer : MonoBehaviour
     private void FixedUpdate()
     {
         renderPlayerDirection();
-        if (this.transform.childCount == 4)
+        if (this.transform.childCount == 5)
         {
             carryWall();
         }
@@ -87,7 +87,7 @@ public class PlayerRenderer : MonoBehaviour
             }
         }
 
-        
+
 
         // 마우스 위치에 따른 캐릭터 방향 전환(Animation)
         mousePos = Input.mousePosition;
@@ -138,9 +138,9 @@ public class PlayerRenderer : MonoBehaviour
          * activate wall collider
          * Play Carry Animation
          */
-        if (this.gameObject.transform.childCount == 4)
-        { // child(0:movementCollider, 1:seeThroughWallCollider, 2:carryWallCollider(inactivate), 3:Wall(dynamic)
-            carryWallCollider = this.transform.GetChild(this.transform.childCount - 2).gameObject;
+        if (this.gameObject.transform.childCount == 5)
+        { // child(0:movementCollider, 1:seeThroughWallCollider, 2:carryWallCollider(inactivate), 3:PlayerLegSprite, 4:Wall
+            carryWallCollider = this.transform.GetChild(this.transform.childCount - 3).gameObject;
             carryWallCollider.SetActive(true);
             wallCarrying = this.transform.GetChild(this.transform.childCount - 1).gameObject;
             wallCarrying.GetComponent<Transform>().localPosition = playerDirection / 5; // wallCarrying localPosition
@@ -216,13 +216,16 @@ public class PlayerRenderer : MonoBehaviour
 
     public void CombinedWallReset(GameObject pillarToCombine)
     {
-        wallCarrying.transform.SetParent(pillarToCombine.transform);
-        tmpWallVec.x = -(playerDirection.x / 2);
-        tmpWallVec.y = -(playerDirection.y / 4);
-        wallCarrying.transform.localPosition = tmpWallVec;
-        wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall Color Change
-        wallCarrying.GetComponent<Collider2D>().enabled = true; // wall edgeCollider disable
-        wallCarrying = null;
-        carryWallCollider.SetActive(false);
+        if (wallCarrying != null)
+        {
+            wallCarrying.transform.SetParent(pillarToCombine.transform);
+            tmpWallVec.x = -(playerDirection.x * 0.48f);
+            tmpWallVec.y = -(playerDirection.y * 0.24f);
+            wallCarrying.transform.localPosition = tmpWallVec;
+            wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall Color Change
+            wallCarrying.GetComponent<Collider2D>().enabled = true; // wall edgeCollider disable
+            wallCarrying = null;
+            carryWallCollider.SetActive(false);
+        }
     }
 }
