@@ -1,0 +1,15 @@
+﻿{
+	"items":
+	[
+		{"key" : "Setting", "value" : "환경설정"},
+		{"key" : "MainButton", "value" : "메인으로"},
+		{"key" : "Credit", "value" : "크레딧"},
+		{"key" : "ExitSetting", "value" : "뒤로가기"},
+		{"key" : "GameName", "value" : "밀수는 처음이라"},
+		{"key" : "Language", "value" : "한글"},
+		{"key" : "LanguageDescription", "value" : "(메뉴화면의 환경설정에서만 바꿀 수 있습니다)"},
+		{"key" : "NewGame", "value" : "새로하기"},
+		{"key" : "Quit", "value" : "종료하기"},
+		{"key" : "Continue", "value" : "이어하기"}
+	]
+}

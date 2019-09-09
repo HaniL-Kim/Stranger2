@@ -8,6 +8,8 @@ TagManager:
   - Wall
   - Guard
   - FOV
+  - UICanvas
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -53,4 +55,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1052051609
+    locked: 0
+  - name: UI
+    uniqueID: 4130367025
     locked: 0

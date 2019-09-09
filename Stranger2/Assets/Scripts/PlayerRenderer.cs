@@ -29,6 +29,8 @@ public class PlayerRenderer : MonoBehaviour
     public bool isCarryWall = false;
     public int carryWallLayer;
 
+    private float playerAngle;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -70,16 +72,17 @@ public class PlayerRenderer : MonoBehaviour
          * 2. toggle SideWalk
          * 3. toggle Walk
          */
-
-        if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+        // playerAngle = GetAngle(playerController.rb.velocity.normalized, playerDirection);
+        playerAngle = GetAngle(playerController.tryMove.normalized, playerDirection);
+        if (playerController.tryMove == Vector2.zero)
         { // toggle Idle
             anim.SetBool("isWalking", false);
             anim.SetBool("isSideWalking", false);
         }
+        
 
-        else if (GetAngle(playerController.rb.velocity.normalized, playerDirection) == 90f
-            || GetAngle(playerController.rb.velocity.normalized, playerDirection) == 270f
-            ) // 캐릭터의 이동방향과 바라보는 방향이 수직일 때 / TODO : 차이점 확인 (이동방향 1.RigidBody(적용중) vs 2.Input GetKey)
+        else if (85f< playerAngle && playerAngle < 95f
+                || 265f < playerAngle && playerAngle < 275f) // 이동키 입력 방향과 바라보는 방향이 수직일 때
         { // toggle SideWalk
             { // SideWalk
                 playerController.moveSpeed = playerController.sideWalkSpeed;

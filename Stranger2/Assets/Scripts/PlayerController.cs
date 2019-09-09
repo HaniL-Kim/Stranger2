@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,10 +10,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float walkSpeed; // Player Movement(Inspector Input)
     [SerializeField] public float slowWalkSpeed; // Player Movement(Inspector Input)
     [SerializeField] public float sideWalkSpeed; // Player Movement(Inspector Input)
-    [SerializeField] private float rayClickDistance; // Inspector : 0.3f
+    [SerializeField] private float rayClickDistance = 0.3f; // Inspector : 0.3f
+    [SerializeField] private float linearDrag = 0.3f; // Inspector : 0.3f
 
     public Rigidbody2D rb; // Player Movement
-    private Vector2 tryMove;
+    public Vector2 tryMove;
     private PlayerRenderer playerRenderer;
     private Vector3 playerDirection;
     private RaycastHit2D rayClickhit; // Click으로 Wall collider 감지(DeCombine)
@@ -28,17 +30,33 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("GetMouseButtonDown");
-            PlayerAction();
+        if (!GameController.pauseOn)
+        { // pauseOn == false 일 때
+            if (!EventSystem.current.IsPointerOverGameObject())
+            { // 포인터가 UI 위에 있지 않을 때
+                if (Input.GetMouseButtonDown(0))
+                {
+                    PlayerAction();
+                }
+            }
         }
     }
 
     void FixedUpdate()
     {
-        Vector2 tryMove = Vector2.zero;
+        tryMove.x = (Input.GetAxis("Horizontal"));
+        tryMove.y = (Input.GetAxis("Vertical"));
+        rb.AddForce(Vector2.ClampMagnitude(tryMove, 1f) * moveSpeed * Time.deltaTime);
+        if (tryMove.x == 0 && tryMove.y == 0)
+        {
+            if (Mathf.Abs(rb.velocity.x) < linearDrag && Mathf.Abs(rb.velocity.y) < linearDrag)
+            {
+                rb.velocity = Vector2.zero;
+            }
+        }
 
+        /*
+        Vector2 tryMove = Vector2.zero;
         if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0)
         {
             tryMove.x += (Input.GetAxisRaw("Horizontal"));
@@ -47,12 +65,9 @@ public class PlayerController : MonoBehaviour
         {
             tryMove.y += (Input.GetAxisRaw("Vertical"));
         }
-
-        rb.velocity = Vector2.ClampMagnitude(tryMove, 1f) * moveSpeed;
+        */
+        //rb.velocity = Vector2.ClampMagnitude(tryMove, 1f) * moveSpeed;
     }
-    /* Side Walk, Carrying Walk
-     * 
-    */
 
     private void PlayerAction()
     {
@@ -113,13 +128,11 @@ public class PlayerController : MonoBehaviour
                         return;
                     }
                 }
-
                 else if (rayClickhit.collider.tag == "Wall")
                 {
                     Debug.Log("Action : Combine() 하려했지만 [" + rayClickhit.collider.name + "] 에 가로막혀 있습니다.");
                     return;
                 }
-
                 else
                 {
                     Debug.Log("Action : Wall을 들고 [" + rayClickhit.collider.name + "] 에 무언가 시도했지만 아무일도 일어나지 않습니다.");
@@ -127,13 +140,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
-    }
+    } // End of PlayerAction()
 
     private void CombineEvent()
     { // used by event from AnimationClip
-
-
         if (objByHit.tag == "Wall")
         {
             objByHit.transform.SetParent(this.transform); // if ((tmpWallDirection + playerDirection).SqrMagnitude() < 0.813f)
@@ -150,6 +160,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Combine() 했습니다.");
             return;
         }
-    }
+    } // End of CombineEvent()
 
-}
+} // End of Script

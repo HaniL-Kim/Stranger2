@@ -1,0 +1,15 @@
+{
+	"items":
+	[
+		{"key" : "Setting", "value" : "Setting"},
+		{"key" : "MainButton", "value" : "Menu"},
+		{"key" : "Credit", "value" : "Credit"},
+		{"key" : "ExitSetting", "value" : "Back"},
+		{"key" : "GameName", "value" : "My First Smugling"},
+		{"key" : "Language", "value" : "English"},
+		{"key" : "LanguageDescription", "value" : "(Only Can Change in Setting)"},
+		{"key" : "NewGame", "value" : "NewGame"},
+		{"key" : "Quit", "value" : "Quit"},
+		{"key" : "Continue", "value" : "Continue"}
+	]
+}
