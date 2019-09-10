@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     private GameObject objByHit;
     private int layerMask;
 
+    public float angerGauge = 0f;
+    public float imPatience = 1f;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
