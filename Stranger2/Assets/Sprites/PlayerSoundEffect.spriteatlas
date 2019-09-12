@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PlayerSoundEffect
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 1
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 36b31e46f61c99143bf77d23c7ce97e7, type: 3}
+    totalSpriteSurfaceArea: 210280
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 4afdf5a03c9159742a244046a4e75828, type: 3}
+  - {fileID: 21300000, guid: 236ff1f0432298c429adb9300d8101f8, type: 3}
+  - {fileID: 21300000, guid: bf8d6241b52ff0c4ea79c947fa876d79, type: 3}
+  - {fileID: 21300000, guid: 872700c11c6a3094cba1002d7867b78e, type: 3}
+  - {fileID: 21300000, guid: d0fd46e20eca2544192ae5ff6fb3c17a, type: 3}
+  - {fileID: 21300000, guid: 148e1235c723796408480c62ace0d55c, type: 3}
+  - {fileID: 21300000, guid: 9f064085059d8d0418d579bdc1e2b6fd, type: 3}
+  - {fileID: 21300000, guid: b74ab1d5252014742a11ce746191e094, type: 3}
+  - {fileID: 21300000, guid: 8ead84d539e6c9d4ba19eb1a6820abae, type: 3}
+  - {fileID: 21300000, guid: b38011b6bc267184984585875527d8f9, type: 3}
+  - {fileID: 21300000, guid: 49286217d812d284d82a4c4a4c83d2b9, type: 3}
+  - {fileID: 21300000, guid: dafee748790361e44841f7814e21b5ca, type: 3}
+  - {fileID: 21300000, guid: be14fe3a41ec7a348980d730a8916fd4, type: 3}
+  - {fileID: 21300000, guid: b559595ac9bdd9a449afb37ce5937a5a, type: 3}
+  - {fileID: 21300000, guid: 042dd6ca9ad3734409581c218af8b2e6, type: 3}
+  - {fileID: 21300000, guid: 152c8eeb415f7954994c96e842ed3f5b, type: 3}
+  - {fileID: 21300000, guid: 694d26bcaf008244a9538c4afad62aa7, type: 3}
+  - {fileID: 21300000, guid: 9eda1f6efd8de814e85bfeb195d5ca1a, type: 3}
+  - {fileID: 21300000, guid: 20428bfe5e69b5f4ba837fce5fc4fde7, type: 3}
+  - {fileID: 21300000, guid: 4c1ab80f5176f284dba92b5ad3b9014f, type: 3}
+  - {fileID: 21300000, guid: a7cd6dff6d7dcb44b95810b4736a80f8, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Player_SoundEffect11_Normal
+  - Player_SoundEffect07_Normal
+  - Player_SoundEffect08
+  - Player_SoundEffect04
+  - Player_SoundEffect01_Normal
+  - Player_SoundEffect13_Normal
+  - Player_SoundEffect21_Normal
+  - Player_SoundEffect02
+  - Player_SoundEffect10
+  - Player_SoundEffect16
+  - Player_SoundEffect18
+  - Player_SoundEffect03_Normal
+  - Player_SoundEffect19_Normal
+  - Player_SoundEffect09_Normal
+  - Player_SoundEffect20
+  - Player_SoundEffect05_Normal
+  - Player_SoundEffect14
+  - Player_SoundEffect17_Normal
+  - Player_SoundEffect06
+  - Player_SoundEffect15_Normal
+  - Player_SoundEffect12
+  m_Tag: PlayerSoundEffect
+  m_IsVariant: 0

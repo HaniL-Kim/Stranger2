@@ -10,46 +10,33 @@ public class GuardFOVController : MonoBehaviour
     [SerializeField] private Tilemap FOVtileMap;
     [SerializeField] private Tile FOVCheck = null; // inspector
     [SerializeField] private bool ClearFOV = true; // inspector
-    // [SerializeField] private bool DrawFOV = false; // inspector
     [SerializeField] private int FOVRange;
     [SerializeField] public Vector3 FOVDirection;
-    // [SerializeField] private Vector3Int FOVcurrentCell; // Not Using Now
     [SerializeField] private float delayTime = 0.1f; // inspector 0.1f
 
     public bool isDrawingFOV;
-    public bool debugMode;
-    Vector3[] Vec3ForGizmo;
 
     Vector3Int TmpFOVPoint = Vector3Int.zero;
     Vector3 FOVDirNormalize, FOVDirNormalizeTmp, checkPoint, TmpVecForCheckP, pointAVec, pointA, pointBVec, pointB, normalVecTmp, normalVec = Vector3.zero;
-    Vector3[] rayDirections;
+    [SerializeField] private Vector3[] rayDirections;
     RaycastHit2D[] rays;
     GuardController guardController;
 
     private void Awake()
     {
         FOVtileMap = this.transform.GetComponentInChildren<Tilemap>();
-        FOVRange = 15;
         FOVDirection = Vector3.up;
-        // FOVcurrentCell = Vector3Int.zero;
 
         layerMask = (1 << LayerMask.NameToLayer("Wall"))
             + (1 << LayerMask.NameToLayer("Pillar"))
             + (1 << LayerMask.NameToLayer("Player"));// Wall, Pillar, Player 체크
-        // Vec3ForGizmo = new Vector3[FOVRange * 2 + 1]; // For Debug
 
-        rayDirections = new Vector3[FOVRange * 2 + 1];
+        rayDirections = new Vector3[FOVRange * 6 + 1];
         rays = new RaycastHit2D[rayDirections.Length];
         guardController = transform.parent.GetComponent<GuardController>();
 
         StartCoroutine(DrawGuardFOV(delayTime));
     }
-
-    private void FixedUpdate()
-    {
-        // FOVcurrentCell = GameObject.Find("Ground").GetComponent<Tilemap>().WorldToCell(transform.position); // Guard의 위치를 Grid 좌표로
-    }
-
 
     IEnumerator DrawGuardFOV(float delayTime)
     {

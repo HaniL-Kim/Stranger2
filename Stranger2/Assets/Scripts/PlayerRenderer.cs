@@ -5,6 +5,12 @@ using UnityEngine;
 public class PlayerRenderer : MonoBehaviour
 {
     public Animator anim;
+    public GameObject fX_FootStep;
+    public ParticleSystem SoundEffector_1;
+    public ParticleSystem SoundEffector_2;
+    public ParticleSystem SoundEffector_3;
+    public ParticleSystem SoundEffector_4;
+
     public Camera Cam; // Player Rotation - Mouse Position Check
     public Vector3 mousePos; // Player Rotation - Mouse Position Check
     public Vector3 VecMouseToPlayer;
@@ -34,6 +40,12 @@ public class PlayerRenderer : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        fX_FootStep = transform.GetChild(2).gameObject;
+        SoundEffector_1 = fX_FootStep.transform.GetChild(0).GetComponent<ParticleSystem>();
+        SoundEffector_2 = fX_FootStep.transform.GetChild(1).GetComponent<ParticleSystem>();
+        SoundEffector_3 = fX_FootStep.transform.GetChild(2).GetComponent<ParticleSystem>();
+        SoundEffector_4 = fX_FootStep.transform.GetChild(3).GetComponent<ParticleSystem>();
+
         Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         mousePos = Vector3.zero;
         playerDirection = Vector3.down;
@@ -74,15 +86,20 @@ public class PlayerRenderer : MonoBehaviour
          */
         // playerAngle = GetAngle(playerController.rb.velocity.normalized, playerDirection);
         playerAngle = GetAngle(playerController.tryMove.normalized, playerDirection);
+        Debug.Log(playerAngle);
         if (playerController.tryMove == Vector2.zero)
         { // toggle Idle
             anim.SetBool("isWalking", false);
             anim.SetBool("isSideWalking", false);
         }
-        
 
-        else if (85f< playerAngle && playerAngle < 95f
-                || 265f < playerAngle && playerAngle < 275f) // 이동키 입력 방향과 바라보는 방향이 수직일 때
+
+        else if (66f < playerAngle && playerAngle < 76f
+               || 85f < playerAngle && playerAngle < 95f
+               || 103f < playerAngle && playerAngle < 113f
+                || 246f < playerAngle && playerAngle < 256f
+                || 265f < playerAngle && playerAngle < 275f
+                || 283f < playerAngle && playerAngle < 293f) // 이동키 입력 방향과 바라보는 방향이 수직일 때
         { // toggle SideWalk
             { // SideWalk
                 playerController.moveSpeed = playerController.sideWalkSpeed;
@@ -157,8 +174,6 @@ public class PlayerRenderer : MonoBehaviour
         }
         anim.SetFloat("Direction_X", playerDirection.x);
         anim.SetFloat("Direction_Y", playerDirection.y);
-
-        
     }
 
 
@@ -170,10 +185,10 @@ public class PlayerRenderer : MonoBehaviour
          * Play Carry Animation
          */
         if (isCarryWall)
-        { // child(0:movementCollider, 1:seeThroughWallCollider, 2:carryWallCollider(inactivate), 3:PlayerLegSprite, 4:Wall
-            carryWallCollider = this.transform.GetChild(this.transform.childCount - 3).gameObject; // get carryWallCollider Obj & activation
+        { // child(0:MovementCollider, 1:CarryWallCollider(inactivate), 2:PlayerLegSprite, 3: FootStepEffector / +4:Wall / defaultChildCount = 4
+            carryWallCollider = this.transform.GetChild(playerController.defaultChildCount - 3).gameObject; // get carryWallCollider Obj & activation
             carryWallCollider.SetActive(true);
-            wallCarrying = this.transform.GetChild(this.transform.childCount - 1).gameObject; // get Wall Obj & positioning
+            wallCarrying = this.transform.GetChild(playerController.defaultChildCount).gameObject; // get Wall Obj & positioning
             wallCarrying.GetComponent<Transform>().localPosition = playerDirection / 5;
 
             float tmpFloat = playerDirection.x * playerDirection.y; // wall localScale adj(wall's Direction)
@@ -259,6 +274,68 @@ public class PlayerRenderer : MonoBehaviour
             carryWallCollider.SetActive(false);
         }
     }
+
+    public void Play_SoundEffector_1()
+    {
+        if (SoundEffector_1.isPlaying)
+        {
+            SoundEffector_2.Stop();
+            SoundEffector_2.Play();
+            return;
+        }
+        else
+        {
+            SoundEffector_1.Stop();
+            SoundEffector_1.Play();
+            return;
+        }
+    }
+    public void Play_SoundEffector_2()
+    {
+        if (SoundEffector_2.isPlaying)
+        {
+            SoundEffector_1.Stop();
+            SoundEffector_1.Play();
+            return;
+        }
+        else
+        {
+            SoundEffector_2.Stop();
+            SoundEffector_2.Play();
+            return;
+        }
+    }
+    public void Play_SoundEffector_3()
+    {
+        if (SoundEffector_3.isPlaying)
+        {
+            SoundEffector_4.Stop();
+            SoundEffector_4.Play();
+            return;
+        }
+        else
+        {
+            SoundEffector_3.Stop();
+            SoundEffector_3.Play();
+            return;
+        }
+    }
+    public void Play_SoundEffector_4()
+    {
+        if (SoundEffector_4.isPlaying)
+        {
+            SoundEffector_3.Stop();
+            SoundEffector_3.Play();
+            return;
+        }
+        else
+        {
+            SoundEffector_4.Stop();
+            SoundEffector_4.Play();
+            return;
+        }
+    }
+
     public float GetAngle(Vector3 vec1, Vector3 vec2)
     {
         float theta = Vector3.Dot(vec1, vec2) / (vec1.magnitude * vec2.magnitude);

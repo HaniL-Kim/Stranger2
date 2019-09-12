@@ -24,11 +24,14 @@ public class PlayerController : MonoBehaviour
     public float angerGauge = 0f;
     public float imPatience = 1f;
 
+    public int defaultChildCount;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerRenderer = this.GetComponent<PlayerRenderer>();
         layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Pillar"));// Wall, Pillar 만 체크 / layerMask = ~layerMask; 해당 레이어 제외
+        defaultChildCount = this.transform.childCount;
     }
 
     void Update()
@@ -47,9 +50,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        tryMove.x = (Input.GetAxis("Horizontal"));
-        tryMove.y = (Input.GetAxis("Vertical"));
-        rb.AddForce(Vector2.ClampMagnitude(tryMove, 1f) * moveSpeed * Time.deltaTime);
+        tryMove.x = Input.GetAxis("Horizontal") *2f;
+        tryMove.y = Input.GetAxis("Vertical");
+        rb.AddForce(tryMove * moveSpeed * Time.deltaTime);
         if (tryMove.x == 0 && tryMove.y == 0)
         {
             if (Mathf.Abs(rb.velocity.x) < linearDrag && Mathf.Abs(rb.velocity.y) < linearDrag)
@@ -75,7 +78,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerAction()
     {
         playerDirection = playerRenderer.playerDirection;
-        if (this.transform.childCount == 4)
+        if (this.transform.childCount == defaultChildCount)
         { // 맨손 일 때
             rayClickhit = Physics2D.Raycast(this.transform.position, playerDirection, rayClickDistance, layerMask); // 몸에서부터 ray 시작
 
@@ -106,7 +109,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        else if (this.transform.childCount == 5)
+        else if (this.transform.childCount == defaultChildCount+1)
         {
             rayClickhit = Physics2D.Raycast(this.transform.position + (playerDirection.normalized * 0.5f), playerDirection, rayClickDistance * 0.3f, layerMask); // 벽들고 있을땐 벽에서부터 ray, 거리 1/3
             Debug.DrawRay(this.transform.position + (playerDirection.normalized * 0.5f), playerDirection * rayClickDistance * 0.3f, Color.red, 0.5f); // 벽들고 있을땐 빨간색
