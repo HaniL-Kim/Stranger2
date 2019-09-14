@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour
                     if (Vector3.SqrMagnitude(playerDirection) != 1)
                     { // Player Direction : NW,SE,SW,SE
                         playerRenderer.anim.SetTrigger("Combine");
+                        StartCoroutine("CombineEvent");
                         return;
                     }
                     else  // Player Direction : N,W,S,E
@@ -126,6 +127,7 @@ public class PlayerController : MonoBehaviour
                     if (Vector3.SqrMagnitude(playerDirection) != 1)
                     { // Player Direction : NW,SE,SW,SE
                         playerRenderer.anim.SetTrigger("Combine");
+                        StartCoroutine("CombineEvent");
                         return;
                     }
                     else
@@ -148,23 +150,30 @@ public class PlayerController : MonoBehaviour
         }
     } // End of PlayerAction()
 
-    private void CombineEvent()
+    private IEnumerator CombineEvent()
     { // used by event from AnimationClip
+        playerRenderer.Play_SFX_Normal();
         if (objByHit.tag == "Wall")
         {
+            playerRenderer.isCombining = true;
+            yield return new WaitForSeconds(0.4f); // 24frame 대기
             objByHit.transform.SetParent(this.transform); // if ((tmpWallDirection + playerDirection).SqrMagnitude() < 0.813f)
             playerRenderer.isCarryWall = true;
             playerRenderer.anim.SetLayerWeight(playerRenderer.carryWallLayer, 1);
+            playerRenderer.isCombining = false;
             Debug.Log("DeCombine() 했습니다.");
-            return;
+            yield break;
         }
         else if (objByHit.tag == "Pillar")
         {
-            playerRenderer.CombinedWallReset(objByHit); // animation clip에 event로 적용!
+            playerRenderer.isCombining = true;
+            Vector3 combineDir = playerDirection;
+            yield return new WaitForSeconds(0.4f); // 24frame 대기
+            playerRenderer.CombinedWallReset(objByHit, combineDir); // animation clip에 event로 적용!
             playerRenderer.isCarryWall = false;
             playerRenderer.anim.SetLayerWeight(playerRenderer.carryWallLayer, 0);
             Debug.Log("Combine() 했습니다.");
-            return;
+            yield break;
         }
     } // End of CombineEvent()
 

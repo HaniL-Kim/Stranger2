@@ -10,11 +10,11 @@ public class GuardFOVController : MonoBehaviour
     [SerializeField] private Tilemap FOVtileMap;
     [SerializeField] private Tile FOVCheck = null; // inspector
     [SerializeField] private bool ClearFOV = true; // inspector
-    [SerializeField] private int FOVRange;
+    [SerializeField] private int FOVRange = 10;
     [SerializeField] public Vector3 FOVDirection;
     [SerializeField] private float delayTime = 0.1f; // inspector 0.1f
 
-    public bool isDrawingFOV;
+    public bool isDrawingFOV = false;
 
     Vector3Int TmpFOVPoint = Vector3Int.zero;
     Vector3 FOVDirNormalize, FOVDirNormalizeTmp, checkPoint, TmpVecForCheckP, pointAVec, pointA, pointBVec, pointB, normalVecTmp, normalVec = Vector3.zero;
@@ -34,16 +34,13 @@ public class GuardFOVController : MonoBehaviour
         rayDirections = new Vector3[FOVRange * 6 + 1];
         rays = new RaycastHit2D[rayDirections.Length];
         guardController = transform.parent.GetComponent<GuardController>();
-
-        StartCoroutine(DrawGuardFOV(delayTime));
     }
 
-    IEnumerator DrawGuardFOV(float delayTime)
+    public void DrawGuardFOV()
     {
-        // Debug.Log("DrawFOV");
-        yield return new WaitForSeconds(delayTime);
+        Debug.Log("DrawFOV");
+        // yield return new WaitForSeconds(delayTime);
         isDrawingFOV = true;
-
         if (ClearFOV)
         {
             FOVtileMap.SwapTile(FOVCheck, null);
@@ -77,9 +74,8 @@ public class GuardFOVController : MonoBehaviour
                     { // Player에 충돌시
                         Debug.Log("어.어어... 거기 누구야!");
                         FOVtileMap.SwapTile(FOVCheck, null);
-                        guardController.StopAllCoroutines();
-                        StopAllCoroutines();
-                        yield break;
+                        guardController.enabled = false; // To Fix
+                        return;
                     }
 
                     else
@@ -97,8 +93,6 @@ public class GuardFOVController : MonoBehaviour
             // Vec3ForGizmo[i] = rayDirections[i]; // For Debug
         }
         isDrawingFOV = false;
-        StartCoroutine(DrawGuardFOV(delayTime));
-
         /* FOV 삼각형 기준점 표시(For Debug), set > setFlag > setColor
         FOVtileMap.SetTile(GridPointA, FOVCheck); FOVtileMap.SetTileFlags(GridPointA, TileFlags.None); FOVtileMap.SetColor(GridPointA, Color.red);
         FOVtileMap.SetTile(GridPointB, FOVCheck); FOVtileMap.SetTileFlags(GridPointB, TileFlags.None); FOVtileMap.SetColor(GridPointB, Color.blue);

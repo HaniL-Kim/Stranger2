@@ -629,7 +629,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.3
-    functionName: Play_SoundEffector_1
+    functionName: Play_SFX_Normal
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class PlayerRenderer : MonoBehaviour
 {
     public Animator anim;
-    public GameObject fX_FootStep;
-    public ParticleSystem SoundEffector_1;
-    public ParticleSystem SoundEffector_2;
-    public ParticleSystem SoundEffector_3;
-    public ParticleSystem SoundEffector_4;
+
+    private GameObject fX_FootStep;
+    private ParticleSystem[] SoundEffectors;
+    private GameObject S_FX_Collider_Normal;
+    private GameObject S_FX_Collider_Small;
 
     public Camera Cam; // Player Rotation - Mouse Position Check
     public Vector3 mousePos; // Player Rotation - Mouse Position Check
@@ -34,17 +35,23 @@ public class PlayerRenderer : MonoBehaviour
     public bool isSlow = false;
     public bool isCarryWall = false;
     public int carryWallLayer;
+    public bool isCombining = false;
 
     private float playerAngle;
+
+    // public AnimationClip[] animClips;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         fX_FootStep = transform.GetChild(2).gameObject;
-        SoundEffector_1 = fX_FootStep.transform.GetChild(0).GetComponent<ParticleSystem>();
-        SoundEffector_2 = fX_FootStep.transform.GetChild(1).GetComponent<ParticleSystem>();
-        SoundEffector_3 = fX_FootStep.transform.GetChild(2).GetComponent<ParticleSystem>();
-        SoundEffector_4 = fX_FootStep.transform.GetChild(3).GetComponent<ParticleSystem>();
+        SoundEffectors = new ParticleSystem[fX_FootStep.transform.childCount - 2];
+        for (int i = 0; i < SoundEffectors.Length; i++)
+        {
+            SoundEffectors[i] = fX_FootStep.transform.GetChild(i).GetComponent<ParticleSystem>();
+        }
+        S_FX_Collider_Normal = fX_FootStep.transform.GetChild(fX_FootStep.transform.childCount - 2).gameObject;
+        S_FX_Collider_Small = fX_FootStep.transform.GetChild(fX_FootStep.transform.childCount - 1).gameObject;
 
         Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         mousePos = Vector3.zero;
@@ -56,6 +63,11 @@ public class PlayerRenderer : MonoBehaviour
 
         playerController = this.GetComponent<PlayerController>();
         carryWallLayer = anim.layerCount - 1; // Base : 0, Carray Wall : 1
+
+
+        S_FX_Collider_Normal.SetActive(false);
+        S_FX_Collider_Small.SetActive(false);
+        // SetSoundFXEvent("Play_SFX_Small");
     }
     private void Update()
     {
@@ -65,14 +77,16 @@ public class PlayerRenderer : MonoBehaviour
             { // toggle Slow <-> Normal
                 isSlow = true;
                 anim.SetBool("isSlow", true);
-                return;
             }
             else
             {
                 isSlow = false;
                 anim.SetBool("isSlow", false);
-                return;
             }
+        }
+        if (S_FX_Collider_Normal.activeSelf || S_FX_Collider_Small.activeSelf)
+        {
+            StartCoroutine("Is_S_FX_Playing"); // To Fix(최적화)
         }
     }
 
@@ -86,51 +100,90 @@ public class PlayerRenderer : MonoBehaviour
          */
         // playerAngle = GetAngle(playerController.rb.velocity.normalized, playerDirection);
         playerAngle = GetAngle(playerController.tryMove.normalized, playerDirection);
-        Debug.Log(playerAngle);
         if (playerController.tryMove == Vector2.zero)
         { // toggle Idle
             anim.SetBool("isWalking", false);
             anim.SetBool("isSideWalking", false);
         }
-
-
-        else if (66f < playerAngle && playerAngle < 76f
-               || 85f < playerAngle && playerAngle < 95f
-               || 103f < playerAngle && playerAngle < 113f
+        else
+        {
+            if (66f < playerAngle && playerAngle < 76f
+                || 85f < playerAngle && playerAngle < 95f
+                || 103f < playerAngle && playerAngle < 113f
                 || 246f < playerAngle && playerAngle < 256f
                 || 265f < playerAngle && playerAngle < 275f
-                || 283f < playerAngle && playerAngle < 293f) // 이동키 입력 방향과 바라보는 방향이 수직일 때
-        { // toggle SideWalk
-            { // SideWalk
+                || 283f < playerAngle && playerAngle < 293f)
+            { // toggle SideWalk
                 playerController.moveSpeed = playerController.sideWalkSpeed;
                 anim.SetBool("isSideWalking", true);
                 anim.SetBool("isWalking", false);
             }
-        }
-        else
-        { // toggle Walk(방향키 입력만 있을 때(Carrying / Normal)
-            if (isSlow)
-            { // SlowWalk(Carrying)
-                playerController.moveSpeed = playerController.slowWalkSpeed;
-                anim.SetBool("isWalking", true);
-                anim.SetBool("isSideWalking", false);
-            }
             else
-            { // Walk(Normal)
-                playerController.moveSpeed = playerController.walkSpeed;
+            { // toggle Walk(Carrying / Normal)
+                if (isSlow)
+                { // SlowWalk or Carrying
+                    playerController.moveSpeed = playerController.slowWalkSpeed;
+                }
+                else
+                { // Normal Walk
+                    playerController.moveSpeed = playerController.walkSpeed;
+                }
                 anim.SetBool("isWalking", true);
                 anim.SetBool("isSideWalking", false);
             }
         }
 
-        RenderPlayer();
-        if (isCarryWall)
+        if (!isCombining)
         {
-            isSlow = true;
-            anim.SetBool("isSlow", true);
-            RenderPlayerCarryWall();
-            return;
+            RenderPlayer();
+            if (isCarryWall)
+            {
+                isSlow = true;
+                anim.SetBool("isSlow", true);
+                RenderPlayerCarryWall();
+            }
         }
+    }
+
+    /*
+    private void SetSoundFXEvent(string FXName)
+    {
+        animClips = Resources.LoadAll<AnimationClip>("Animation/Clips/Player_Slow_SideWalk");
+        float FrameRate = 1 / 60f;
+        float[] frameToSet = new float[1];
+        // float[] frameToSet = new float[2];
+        frameToSet[0] = 18f;
+        // frameToSet[1] = 48f;
+        AnimationEvent[] animationEvent = new AnimationEvent[1];
+        // AnimationEvent[] animationEvent = new AnimationEvent[2];
+        for (int i = 0; i < animationEvent.Length; i++)
+        {
+            animationEvent[i] = new AnimationEvent();
+            animationEvent[i].time = frameToSet[i] * FrameRate;
+            animationEvent[i].functionName = FXName;
+
+        }
+        for (int i = 0; i < animClips.Length; i++)
+        {
+            AnimationUtility.SetAnimationEvents(animClips[i], animationEvent);
+        }
+    }
+    */
+
+    private IEnumerator Is_S_FX_Playing()
+    {
+        Debug.Log("Is_S_FX_Playing()");
+        yield return new WaitForSeconds(1f); // 1f = S_FX_Duration
+        if (!(SoundEffectors[0].isPlaying || SoundEffectors[1].isPlaying))
+        {
+            S_FX_Collider_Normal.SetActive(false);
+        }
+        if (!(SoundEffectors[2].isPlaying || SoundEffectors[3].isPlaying))
+        {
+            S_FX_Collider_Small.SetActive(false);
+        }
+        else
+            yield break;
     }
 
     private void RenderPlayer()
@@ -260,79 +313,82 @@ public class PlayerRenderer : MonoBehaviour
         }
     }
 
-    public void CombinedWallReset(GameObject pillarToCombine)
+    public void CombinedWallReset(GameObject pillarToCombine, Vector3 combineDir)
     {
         if (wallCarrying != null)
         {
             wallCarrying.transform.SetParent(pillarToCombine.transform);
-            tmpWallVec.x = -(playerDirection.x * 0.48f);
-            tmpWallVec.y = -(playerDirection.y * 0.24f);
+            tmpWallVec.x = -(combineDir.x * 0.48f);
+            tmpWallVec.y = -(combineDir.y * 0.24f);
             wallCarrying.transform.localPosition = tmpWallVec;
             wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall Color Change
             wallCarrying.GetComponent<Collider2D>().enabled = true; // wall edgeCollider disable
             wallCarrying = null;
             carryWallCollider.SetActive(false);
+            isCombining = false;
         }
     }
 
-    public void Play_SoundEffector_1()
-    {
-        if (SoundEffector_1.isPlaying)
-        {
-            SoundEffector_2.Stop();
-            SoundEffector_2.Play();
-            return;
+    public void Play_SFX_Normal()
+    { // SFX_Num = Only 0 or 1
+        S_FX_Collider_Normal.SetActive(true);
+        if (SoundEffectors[0].isPlaying && SoundEffectors[1].isPlaying)
+        { // case1 : Effector 0 & 1 Playing // 수정필요
+            // Debug.Log(SoundEffectors[0].time + ", " + SoundEffectors[1].time);
+            int i = SoundEffectors[0].time >= SoundEffectors[1].time ? 0 : 1;
+            SoundEffectors[i].Stop();
+            SoundEffectors[i].Clear();
+            SoundEffectors[i].Play();
+        }
+        else if (!SoundEffectors[0].isPlaying && !SoundEffectors[1].isPlaying)
+        { // case2 : Effector 0 & 1 Not Playing
+            SoundEffectors[0].Play();
         }
         else
-        {
-            SoundEffector_1.Stop();
-            SoundEffector_1.Play();
-            return;
+        { // case3 : Only One Effector is Playing(0 or 1)
+            int tmp = new int();
+            if (SoundEffectors[0].isPlaying)
+            {
+                tmp = 1;
+            }
+            else if (SoundEffectors[1].isPlaying)
+            {
+                tmp = 0;
+            }
+            SoundEffectors[tmp].Stop();
+            SoundEffectors[tmp].Clear();
+            SoundEffectors[tmp].Play();
         }
     }
-    public void Play_SoundEffector_2()
-    {
-        if (SoundEffector_2.isPlaying)
-        {
-            SoundEffector_1.Stop();
-            SoundEffector_1.Play();
-            return;
+    public void Play_SFX_Small()
+    { // SFX_Num = Only 2 or 3
+        S_FX_Collider_Small.SetActive(true);
+        if (SoundEffectors[2].isPlaying && SoundEffectors[3].isPlaying)
+        { // case3 : Effector 2 & 3 Playing
+            Debug.Log(SoundEffectors[2].time + ", " + SoundEffectors[3].time);
+            int i = SoundEffectors[2].time >= SoundEffectors[3].time ? 2 : 3;
+            SoundEffectors[i].Stop();
+            SoundEffectors[i].Clear();
+            SoundEffectors[i].Play();
+        }
+        else if (!SoundEffectors[2].isPlaying && !SoundEffectors[3].isPlaying)
+        { // case2 : Effector 2 & 3 Not Playing
+            SoundEffectors[2].Play();
         }
         else
-        {
-            SoundEffector_2.Stop();
-            SoundEffector_2.Play();
-            return;
-        }
-    }
-    public void Play_SoundEffector_3()
-    {
-        if (SoundEffector_3.isPlaying)
-        {
-            SoundEffector_4.Stop();
-            SoundEffector_4.Play();
-            return;
-        }
-        else
-        {
-            SoundEffector_3.Stop();
-            SoundEffector_3.Play();
-            return;
-        }
-    }
-    public void Play_SoundEffector_4()
-    {
-        if (SoundEffector_4.isPlaying)
-        {
-            SoundEffector_3.Stop();
-            SoundEffector_3.Play();
-            return;
-        }
-        else
-        {
-            SoundEffector_4.Stop();
-            SoundEffector_4.Play();
-            return;
+        { // case3 : Only One Effector is Playing(2 or 3)
+            int tmp = new int();
+            if (SoundEffectors[2].isPlaying)
+            {
+                tmp = 3;
+            }
+            else if (SoundEffectors[3].isPlaying)
+            {
+                tmp = 2;
+            }
+            SoundEffectors[tmp].Stop();
+            SoundEffectors[tmp].Clear();
+            SoundEffectors[tmp].Play();
         }
     }
 
@@ -344,5 +400,13 @@ public class PlayerRenderer : MonoBehaviour
         if (dirAngle.z < 0.0f) angle = 360 - angle;
         // Debug.Log("사잇각 : " + angle);
         return angle;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Guard"))
+        {
+            Debug.Log("누...누구야!");
+        }
     }
 }

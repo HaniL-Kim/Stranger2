@@ -14,7 +14,7 @@ public class Inventory_Slot : MonoBehaviour
 
     [SerializeField] private Item item;
     [SerializeField] private Image icon;
-    [SerializeField] private Sprite emptyIcon;
+    [SerializeField] private Sprite emptyIcon = null;
 
     public KeyCode _keyCode;
     private Button _button;

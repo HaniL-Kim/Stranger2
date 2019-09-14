@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Inventory_Del : MonoBehaviour
 {
     [SerializeField] private Inventory _inventory;
-    [SerializeField] private Sprite emptyIcon;
+    [SerializeField] private Sprite emptyIcon = null;
 
     void Awake()
     {

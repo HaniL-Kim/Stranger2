@@ -10,6 +10,7 @@ TagManager:
   - FOV
   - UICanvas
   - Item
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - FOV
   - Guard
   - Pillar
-  - 
+  - Obstacle
   - 
   - 
   - 

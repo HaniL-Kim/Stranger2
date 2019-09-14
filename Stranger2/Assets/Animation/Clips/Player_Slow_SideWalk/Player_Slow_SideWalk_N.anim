@@ -515,7 +515,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.3
-    functionName: Play_SoundEffector_3
+    functionName: Play_SFX_Small
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
