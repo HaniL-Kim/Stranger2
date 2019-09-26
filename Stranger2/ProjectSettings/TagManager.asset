@@ -11,6 +11,14 @@ TagManager:
   - UICanvas
   - Item
   - Obstacle
+  - PlayerSound
+  - PlayerTrigger
+  - PlayerSortingTrigger
+  - ObjBelow
+  - ObjAbove
+  - PillarType0
+  - PillarTrigger
+  - WallTrigger
   layers:
   - Default
   - TransparentFX
@@ -21,11 +29,11 @@ TagManager:
   - 
   - 
   - Wall
-  - Player
-  - FOV
-  - Guard
   - Pillar
-  - Obstacle
+  - Player
+  - 
+  - 
+  - 
   - 
   - 
   - 

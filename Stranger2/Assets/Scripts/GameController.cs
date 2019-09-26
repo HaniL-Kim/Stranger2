@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         UICanvas = GameObject.FindGameObjectWithTag("UICanvas");
         InGamePanel = UICanvas.transform.GetChild(0).gameObject;
         PausePanel = UICanvas.transform.GetChild(1).gameObject;

@@ -17,24 +17,25 @@ public class PlayerRenderer : MonoBehaviour
     public Vector3 VecMouseToPlayer;
 
     public Vector3 playerDirection;
-    public GameObject wallCarrying; // PlayerController.Combine()에서 참조
 
-    // private enum playerDirectionEnum { N, NW, W, SW, S, SE, E, NE };
-    // private playerDirectionEnum playerDirectionState;
-    public Sprite[] wallSprite;
+    public Sprite[] wallSprites;
+    public Sprite[] wallShadowSprites;
 
-    public Color wallColor; // Player Behind Wall (Caching)
-
-    public GameObject carryWallCollider; // CarryWall (Caching)
-    private Quaternion tmpRotation; // CarryWall (Caching)
-    private Vector3 tmpVec3carryWall; // CarryWall (Caching)
-    private Vector3 tmpWallVec; // CombinedWallReset() Caching
-
+    private GameObject wallCarryingObj; // PlayerController.Combine()에서 참조
+    private Transform TF_wallObj;
+    private Transform TF_wallShadowObj;
+    private Transform TF_wallColliderObj;
+    private SpriteRenderer SR_wallObj;
+    private SpriteRenderer SR_wallShadowObj;
+    private BoxCollider2D BC2D_wallColliderObj;
+    Vector3 tmpV3;
+    /*
+    */
     private PlayerController playerController;
 
+    public int carryWallLayer;
     public bool isSlow = false;
     public bool isCarryWall = false;
-    public int carryWallLayer;
     public bool isCombining = false;
 
     private float playerAngle;
@@ -43,8 +44,15 @@ public class PlayerRenderer : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
-        fX_FootStep = transform.GetChild(2).gameObject;
+        wallCarryingObj = transform.GetChild(transform.childCount - 3).gameObject;
+        TF_wallObj = wallCarryingObj.transform.GetChild(0).GetComponent<Transform>();
+        TF_wallShadowObj = wallCarryingObj.transform.GetChild(1).GetComponent<Transform>();
+        TF_wallColliderObj = wallCarryingObj.transform.GetChild(2).GetComponent<Transform>();
+        SR_wallObj = wallCarryingObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        SR_wallShadowObj = wallCarryingObj.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        BC2D_wallColliderObj = wallCarryingObj.transform.GetChild(2).GetComponent<BoxCollider2D>();
+
+        fX_FootStep = transform.GetChild(transform.childCount - 2).gameObject;
         SoundEffectors = new ParticleSystem[fX_FootStep.transform.childCount - 2];
         for (int i = 0; i < SoundEffectors.Length; i++)
         {
@@ -52,21 +60,18 @@ public class PlayerRenderer : MonoBehaviour
         }
         S_FX_Collider_Normal = fX_FootStep.transform.GetChild(fX_FootStep.transform.childCount - 2).gameObject;
         S_FX_Collider_Small = fX_FootStep.transform.GetChild(fX_FootStep.transform.childCount - 1).gameObject;
-
         Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mousePos = Vector3.zero;
-        playerDirection = Vector3.down;
-        VecMouseToPlayer = Vector3.zero;
-        wallColor = Color.white;
-        tmpWallVec = Vector3.zero;
-        tmpVec3carryWall = Vector3.one;
-
         playerController = this.GetComponent<PlayerController>();
-        carryWallLayer = anim.layerCount - 1; // Base : 0, Carray Wall : 1
+        anim = GetComponent<Animator>();
 
+        mousePos = Vector3.zero;
+        VecMouseToPlayer = Vector3.zero;
+        playerDirection = Vector3.down;
+        carryWallLayer = anim.layerCount - 1; // Base : 0, Carray Wall : 1
 
         S_FX_Collider_Normal.SetActive(false);
         S_FX_Collider_Small.SetActive(false);
+        wallCarryingObj.SetActive(false);
         // SetSoundFXEvent("Play_SFX_Small");
     }
     private void Update()
@@ -172,7 +177,6 @@ public class PlayerRenderer : MonoBehaviour
 
     private IEnumerator Is_S_FX_Playing()
     {
-        Debug.Log("Is_S_FX_Playing()");
         yield return new WaitForSeconds(1f); // 1f = S_FX_Duration
         if (!(SoundEffectors[0].isPlaying || SoundEffectors[1].isPlaying))
         {
@@ -239,93 +243,87 @@ public class PlayerRenderer : MonoBehaviour
          */
         if (isCarryWall)
         { // child(0:MovementCollider, 1:CarryWallCollider(inactivate), 2:PlayerLegSprite, 3: FootStepEffector / +4:Wall / defaultChildCount = 4
-            carryWallCollider = this.transform.GetChild(playerController.defaultChildCount - 3).gameObject; // get carryWallCollider Obj & activation
-            carryWallCollider.SetActive(true);
-            wallCarrying = this.transform.GetChild(playerController.defaultChildCount).gameObject; // get Wall Obj & positioning
-            wallCarrying.GetComponent<Transform>().localPosition = playerDirection / 5;
+            wallCarryingObj.SetActive(true);
+            tmpV3 = Vector3.one;
+            float tmpFactor_X = playerDirection.x;
+            float tmpFactor_Y = playerDirection.y;
 
-            float tmpFloat = playerDirection.x * playerDirection.y; // wall localScale adj(wall's Direction)
-            tmpVec3carryWall.x = tmpFloat;
-            if (tmpFloat != 0)
-            {
-                wallCarrying.GetComponent<Transform>().localScale = tmpVec3carryWall;
-            }
+            if (tmpFactor_X == 0)
+            { // N & S
+                SR_wallObj.sprite = wallSprites[0];
+                SR_wallShadowObj.sprite = wallShadowSprites[0];
 
-            wallCarrying.GetComponent<Collider2D>().enabled = false; // wall's edgeCollider disable
-            wallColor.a = 50f / 255f; // alpha Change
-            wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall's Color Change
-            wallColor.a = 255f / 255f; // alpha Reset
-            if (playerDirection.x == 1 || playerDirection.x == -1)
-            { // Player Direction에 따른 Wall Sprite 변경
-                wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[2];
-                if (playerDirection.x == 1)
-                {
-                    if (playerDirection.y == 1)
-                    { // NE
-                        tmpRotation.eulerAngles = new Vector3(0, 0, 155);
-                    }
-                    if (playerDirection.y == -1)
-                    { // SE
-                        tmpRotation.eulerAngles = new Vector3(0, 0, 25);
-                    }
-                }
-                else if (playerDirection.x == -1)
-                {
-                    if (playerDirection.y == 1)
-                    { // NW
-                        tmpRotation.eulerAngles = new Vector3(0, 0, 205);
-                    }
-                    if (playerDirection.y == -1)
-                    { // SW
-                        tmpRotation.eulerAngles = new Vector3(0, 0, 335);
-                    }
-                }
-            }
-            else if (playerDirection.x == 0)
-            {
-                wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[1];
-                if (playerDirection.y == 1)
-                { // N
-                    tmpRotation.eulerAngles = new Vector3(0, 0, 180);
-                }
-                if (playerDirection.y == 0)
-                { // S(Default)
-                    tmpRotation.eulerAngles = new Vector3(0, 0, 0);
-                }
-                if (playerDirection.y == -1)
-                { // S
-                    tmpRotation.eulerAngles = new Vector3(0, 0, 0);
-                }
-            }
-            if (playerDirection.y == 0)
-            {
-                wallCarrying.GetComponent<SpriteRenderer>().sprite = wallSprite[0];
-                if (playerDirection.x == 1)
-                { // E
-                    tmpRotation.eulerAngles = new Vector3(0, 0, 90);
-                }
-                if (playerDirection.x == -1)
-                { // W
-                    tmpRotation.eulerAngles = new Vector3(0, 0, 270);
-                }
-            }
-            carryWallCollider.transform.rotation = tmpRotation;
-        }
-    }
+                tmpV3.x = 1 * tmpFactor_Y;
+                TF_wallObj.localScale = tmpV3; // Set(1 * tmpFactor_Y, 1, 1);
 
-    public void CombinedWallReset(GameObject pillarToCombine, Vector3 combineDir)
-    {
-        if (wallCarrying != null)
-        {
-            wallCarrying.transform.SetParent(pillarToCombine.transform);
-            tmpWallVec.x = -(combineDir.x * 0.48f);
-            tmpWallVec.y = -(combineDir.y * 0.24f);
-            wallCarrying.transform.localPosition = tmpWallVec;
-            wallCarrying.GetComponent<SpriteRenderer>().color = wallColor; // wall Color Change
-            wallCarrying.GetComponent<Collider2D>().enabled = true; // wall edgeCollider disable
-            wallCarrying = null;
-            carryWallCollider.SetActive(false);
-            isCombining = false;
+                tmpV3.x = -1 * tmpFactor_Y;
+                TF_wallShadowObj.localScale = tmpV3; // Set(-1 * tmpFactor_Y, 1, 1);
+
+                tmpV3 = Vector3.zero; tmpV3.y = 0.12f * tmpFactor_Y;
+                TF_wallColliderObj.localPosition = tmpV3; // Set(0, 0.12f * tmpFactor_Y, 0);
+
+                TF_wallColliderObj.localEulerAngles = Vector3.zero; // Set(0,0,0);
+
+                tmpV3.x = 0.86f; tmpV3.y = 0.05f;
+                BC2D_wallColliderObj.size = tmpV3; // Set(0.86f, 0.05f);
+
+                tmpV3 = Vector3.zero; tmpV3.y = 0.05f + tmpFactor_Y * 0.13f;
+                TF_wallObj.localPosition = tmpV3; // Set(0, 0.05f + tmpFactor_Y * 0.13f, 0);
+
+                tmpV3.y = -0.01f + tmpFactor_Y * 0.13f;
+                TF_wallShadowObj.localPosition = tmpV3; // Set(0, -0.01f + tmpFactor_Y * 0.13f, 0);
+            }
+            else if (tmpFactor_Y == 0)
+            { // E & W
+                SR_wallObj.sprite = wallSprites[1];
+                SR_wallShadowObj.sprite = wallShadowSprites[1];
+
+                tmpV3.x = 1 * tmpFactor_X;
+                TF_wallObj.localScale = tmpV3; // Set(1 * tmpFactor_X, 1, 1);
+
+                tmpV3.x = 1 * tmpFactor_Y;
+                TF_wallShadowObj.localScale = tmpV3; // Set(1 * tmpFactor_Y, 1, 1);
+
+                tmpV3.x = 0.22f * tmpFactor_X; tmpV3.y = -0.12f; tmpV3.z = 0;
+                TF_wallObj.localPosition = tmpV3; // Set(0.22f * tmpFactor_X, -0.12f, 0);
+
+                tmpV3.y = -0.16f;
+                TF_wallShadowObj.localPosition = tmpV3; // Set(0.22f * tmpFactor_X, -0.16f, 0);
+
+                tmpV3.y = 0f;
+                TF_wallColliderObj.localPosition = tmpV3; // Set(0.22f * tmpFactor_X, 0, 0);
+
+                tmpV3.x = 0; tmpV3.z = 90f;
+                TF_wallColliderObj.localEulerAngles = tmpV3; // Set(0, 0, 90);
+
+                tmpV3.x = 0.46f; tmpV3.y = 0.05f; tmpV3.z = 0;
+                BC2D_wallColliderObj.size = tmpV3; // Set(0.46f, 0.05f);
+
+            }
+            else
+            { // NE, NW, SW, SE / else if (tmpFactor_X * tmpFactor_Y == 1 || tmpFactor_X * tmpFactor_Y == -1)
+                SR_wallObj.sprite = wallSprites[2];
+                SR_wallShadowObj.sprite = wallShadowSprites[2];
+
+                tmpV3.x = 1 * tmpFactor_X * tmpFactor_Y;
+                TF_wallObj.localScale = tmpV3; // Set(1 * tmpFactor_X * tmpFactor_Y, 1, 1);
+                TF_wallShadowObj.localScale = tmpV3; // Set(1 * tmpFactor_X * tmpFactor_Y, 1, 1);
+
+                tmpV3.x = 0.22f * tmpFactor_X; tmpV3.y = 0.06f * tmpFactor_Y; tmpV3.z = 0;
+                TF_wallColliderObj.localPosition = tmpV3; // Set(0.22f * tmpFactor_X, 0.06f * tmpFactor_Y, 0);
+
+                tmpV3 = Vector3.zero; tmpV3.z = -26.565f * tmpFactor_X * tmpFactor_Y;
+                TF_wallColliderObj.localEulerAngles = tmpV3; // Set(0, 0, -26.565f * tmpFactor_X * tmpFactor_Y);
+
+                tmpV3.x = 0.72f; tmpV3.y = 0.05f; tmpV3.z = 0;
+                BC2D_wallColliderObj.size = tmpV3; // Set(0.72f, 0.05f);
+
+                tmpV3.x = 0.21f * tmpFactor_X; tmpV3.y = 0.04f + tmpFactor_Y * 0.06f;
+                TF_wallObj.localPosition = tmpV3; // Set(0.21f * tmpFactor_X, 0.04f + tmpFactor_Y * 0.06f, 0);
+
+                tmpV3.y = 0.01f + tmpFactor_Y * 0.06f;
+                TF_wallShadowObj.localPosition = tmpV3; // Set(0.21f * tmpFactor_X, 0.01f + tmpFactor_Y * 0.06f, 0);
+            }
         }
     }
 
