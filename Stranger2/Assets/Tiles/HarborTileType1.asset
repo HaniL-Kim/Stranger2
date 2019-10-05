@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535f8e525ff367c4ba67961e201a05ed, type: 3}
+  m_Name: HarborTileType1
+  m_EditorClassIdentifier: 
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Transform:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  m_InstancedGameObject: {fileID: 0}
+  m_Flags: 1
+  m_ColliderType: 1
+  m_Sprites:
+  - {fileID: 21300000, guid: 7304e65031692f84daccd8bf3316bef9, type: 3}
+  - {fileID: 21300000, guid: a63a9ec3bfadef143b0638f69ab85a3e, type: 3}
+  - {fileID: 21300000, guid: 0f1d96a97d084b349a74a4677d55a24e, type: 3}
+  - {fileID: 21300000, guid: 4e8ab1dd29a2e7640a6a18aa92470892, type: 3}
+  - {fileID: 21300000, guid: 2d0fd0af46fc3c643867035445ba653f, type: 3}
+  - {fileID: 21300000, guid: 4d1128aedd3421849bf68e4d25df4e41, type: 3}
+  - {fileID: 21300000, guid: f64829548b4319945b2be428c9ed1fbb, type: 3}
+  - {fileID: 21300000, guid: 4e7d6e0a01bd3aa4b8024842d5cc397e, type: 3}
+  - {fileID: 21300000, guid: 3c869196250ace04487d9d60cfc801a3, type: 3}
+  - {fileID: 21300000, guid: cf21647fbd04753468725ea826e93e58, type: 3}
+  - {fileID: 21300000, guid: 54d517ea76fb30744952c89dd547c291, type: 3}
+  - {fileID: 21300000, guid: 9902221a30f31d942b761943b8439a8c, type: 3}
+  - {fileID: 21300000, guid: b5f41f57c5e876642bf5c13eebbb8042, type: 3}
+  - {fileID: 21300000, guid: b070f087c55d7774e95e8f62da90dcf9, type: 3}
+  - {fileID: 21300000, guid: cdf07f634812f1c45bc28dabc6ceccc0, type: 3}
+  - {fileID: 21300000, guid: b0424503a5976504e8c318243d1393ac, type: 3}
+  - {fileID: 21300000, guid: 2a64b9b0fd895f141b8219a661cd0422, type: 3}

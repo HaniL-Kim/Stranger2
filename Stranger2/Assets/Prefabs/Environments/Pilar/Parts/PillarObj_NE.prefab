@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7504132628984777476}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: PillarObj_NE
   m_TagString: ObjAbove
   m_Icon: {fileID: 0}
@@ -372,11 +372,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7504132628984777476}
     m_Modifications:
-    - target: {fileID: 6627839224178840218, guid: a5ad0b1e634aaac439b28a396f4044be,
-        type: 3}
-      propertyPath: m_Name
-      value: Pillar_Trigger_NE
-      objectReference: {fileID: 0}
     - target: {fileID: 3631162057776476256, guid: a5ad0b1e634aaac439b28a396f4044be,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -431,6 +426,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627839224178840218, guid: a5ad0b1e634aaac439b28a396f4044be,
+        type: 3}
+      propertyPath: m_Name
+      value: Pillar_Trigger_NE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5ad0b1e634aaac439b28a396f4044be, type: 3}
@@ -522,11 +522,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7504132628984777476}
     m_Modifications:
-    - target: {fileID: 8788341852267502900, guid: e26df1d25b3021940a04f3d7cad20ca8,
-        type: 3}
-      propertyPath: m_Name
-      value: Pillar_Obs_NE
-      objectReference: {fileID: 0}
     - target: {fileID: 5755352120983558316, guid: e26df1d25b3021940a04f3d7cad20ca8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -581,6 +576,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788341852267502900, guid: e26df1d25b3021940a04f3d7cad20ca8,
+        type: 3}
+      propertyPath: m_Name
+      value: Pillar_Obs_NE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e26df1d25b3021940a04f3d7cad20ca8, type: 3}

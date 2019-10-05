@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject InventoryPanel;
     Inventory inventoryScr;
 
+    public string stage;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -19,6 +22,7 @@ public class GameController : MonoBehaviour
         PausePanel = UICanvas.transform.GetChild(1).gameObject;
         InventoryPanel = UICanvas.transform.GetChild(2).gameObject;
         inventoryScr = InventoryPanel.GetComponent<Inventory>();
+        stage = SceneManager.GetActiveScene().name;
     }
 
     void Update()

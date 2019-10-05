@@ -1,15 +1,30 @@
-{
-	"items":
-	[
-		{"key" : "Setting", "value" : "Setting"},
-		{"key" : "MainButton", "value" : "Menu"},
-		{"key" : "Credit", "value" : "Credit"},
-		{"key" : "ExitSetting", "value" : "Back"},
-		{"key" : "GameName", "value" : "My First Smugling"},
-		{"key" : "Language", "value" : "English"},
-		{"key" : "LanguageDescription", "value" : "(Only Can Change in Setting)"},
-		{"key" : "NewGame", "value" : "NewGame"},
-		{"key" : "Quit", "value" : "Quit"},
-		{"key" : "Continue", "value" : "Continue"}
-	]
-}
+{"items":[{"key":"Setting","value":"Setting"}
+,{"key":"MainButton","value":"Menu"}
+,{"key":"Credit","value":"Credit"}
+,{"key":"ExitSetting","value":"Back"}
+,{"key":"GameName","value":"My First Smuggling"}
+,{"key":"Language","value":"English"}
+,{"key":"LanguageDescription","value":"(Only Can Change in Setting)"}
+,{"key":"NewGame","value":"NewGame"}
+,{"key":"Quit","value":"Quit"}
+,{"key":"Continue","value":"Continue"}
+,{"key":"Yes","value":"Yes"}
+,{"key":"No","value":"No"}
+,{"key":"EnsureDelete","value":"Do you Rearlly Want to Delete Save Data?"}
+,{"key":"StageNameText_0","value":"It is first time to me Do smuggling..."}
+,{"key":"StageDescriptionText_0","value":"I've succeeded in sneaking away from the guard's eyes.\nI always say, principle and safety are the best!"}
+,{"key":"guard_Type1_key0","value":"Air is keep falling in the rubber?"}
+,{"key":"guard_Type1_key1","value":"Am I Carry out cautionary mission? Not maintenance?"}
+,{"key":"guard_Type1_key2","value":"He's doing that again amidst all this."}
+,{"key":"guard_Type1_key3","value":"If you're gonna do that,\njust come and press the compressor button..."}
+,{"key":"guard_Type1_key4","value":"Hah... let's not talk..."}
+,{"key":"guard_Type1_key5","value":"..."}
+,{"key":"guard_Type2_key0","value":"Ahhhhhhhhhhhhhhhhhhahh\ndon't wanna gooooooooooooo"}
+,{"key":"guard_Type2_key1","value":"Don't wanna dooooooooooo~~"}
+,{"key":"guard_Type2_key2","value":"Ooo Ah Ahhhhhaaaaa!!!!!!!!!!"}
+,{"key":"Board0_key0","value":"The creed of Coast Guard service?!!!!!!!!!!!"}
+,{"key":"Board0_key1","value":"Good or unlucky,\nIt would be near the desalination facility."}
+,{"key":"Board0_key2","value":"I thought I'd run away,\nbut I've succeeded(?)\nsneak in nearly(?)"}
+,{"key":"Board0_key3","value":"It'll be better to go\nand get some stuff!"}
+
+]}

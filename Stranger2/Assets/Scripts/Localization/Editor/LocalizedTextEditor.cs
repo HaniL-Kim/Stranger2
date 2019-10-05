@@ -22,7 +22,7 @@ public class LocalizedTextEditor : EditorWindow
             SerializedProperty serializedProperty = serializedObject.FindProperty("localizationData");
             EditorGUILayout.PropertyField(serializedProperty, true);
             serializedObject.ApplyModifiedProperties();
-            if(GUILayout.Button("Save data"))
+            if (GUILayout.Button("Save data"))
             {
                 SaveGameData();
             }
@@ -54,6 +54,26 @@ public class LocalizedTextEditor : EditorWindow
         if(!string.IsNullOrEmpty(filePath))
         {
             string dataAsJson = JsonUtility.ToJson(localizationData);
+            string[] spe = { ",{" };
+            string[] datas = dataAsJson.Split(spe, System.StringSplitOptions.None);
+
+            for (int i = 0; i < datas.Length; i++)
+            {
+                if( i == datas.Length -1)
+                {
+                    break;
+                }
+                else
+                {
+                    datas[i] = datas[i] + "\n,{";
+                }
+            }
+            dataAsJson = null;
+            for (int i = 0; i < datas.Length; i++)
+            {
+                dataAsJson += datas[i];
+            }
+
             File.WriteAllText(filePath, dataAsJson);
         }
     }

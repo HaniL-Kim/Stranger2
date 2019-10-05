@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7553405889395852645}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -38,21 +38,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2444881312912340561}
     m_Modifications:
-    - target: {fileID: 8196594687864820346, guid: 5720ac8b4a372594091a05f773da5132,
-        type: 3}
-      propertyPath: m_Name
-      value: PillarObj_SW(Variant)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8196594687864820346, guid: 5720ac8b4a372594091a05f773da5132,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8196594687864820346, guid: 5720ac8b4a372594091a05f773da5132,
-        type: 3}
-      propertyPath: m_TagString
-      value: ObjBelow
-      objectReference: {fileID: 0}
     - target: {fileID: 8196594687864820345, guid: 5720ac8b4a372594091a05f773da5132,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -113,10 +98,15 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: -1
       objectReference: {fileID: 0}
-    - target: {fileID: 1201584609755643725, guid: 5720ac8b4a372594091a05f773da5132,
+    - target: {fileID: 8196594687864820346, guid: 5720ac8b4a372594091a05f773da5132,
         type: 3}
       propertyPath: m_Name
-      value: Pillar_Obs_SW
+      value: PillarObj_SW(Variant)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196594687864820346, guid: 5720ac8b4a372594091a05f773da5132,
+        type: 3}
+      propertyPath: m_TagString
+      value: ObjBelow
       objectReference: {fileID: 0}
     - target: {fileID: 6050143297799773673, guid: 5720ac8b4a372594091a05f773da5132,
         type: 3}
@@ -132,6 +122,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: ObjBelow
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201584609755643725, guid: 5720ac8b4a372594091a05f773da5132,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201584609755643725, guid: 5720ac8b4a372594091a05f773da5132,
+        type: 3}
+      propertyPath: m_Name
+      value: Pillar_Obs_SW
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5720ac8b4a372594091a05f773da5132, type: 3}

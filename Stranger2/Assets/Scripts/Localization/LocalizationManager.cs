@@ -12,19 +12,34 @@ public class LocalizationManager : MonoBehaviour
     private string missingTextString = "Localized file not found";
     public string localizedFileName;
 
-    private void Awake()
+    private void Start()
     {
         if (instance == null)
         {
             instance = this;
+            StartCoroutine("Initialize");
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-
-        localizedFileName = "localizedText_Kor.json";
+    }
+    IEnumerator Initialize()
+    {
+        Debug.Log("Initialize()");
+        while (!SaveDataController.instance.isReady)
+        {
+            Debug.Log("SaveDataController is Not Ready");
+            yield return null;
+        }
+        while(SaveDataController.instance.languageSelected == null)
+        {
+            Debug.Log("languageData is null");
+            yield return null;
+        }
+        localizedFileName = SaveDataController.instance.languageSelected;
+        LoadLocalizedText();
     }
 
     public void LanguageArrowButton()
@@ -32,28 +47,32 @@ public class LocalizationManager : MonoBehaviour
         if (localizedFileName == "localizedText_Kor.json")
         {
             localizedFileName = "localizedText_Eng.json";
+            PlayerPrefs.SetString("languageSelected", localizedFileName);
             LoadLocalizedText();
         }
         else
         {
             localizedFileName = "localizedText_Kor.json";
+            PlayerPrefs.SetString("languageSelected", localizedFileName);
             LoadLocalizedText();
         }
         foreach (LocalizedText text in FindObjectsOfType<LocalizedText>())
         {
-            text.ReloadText();
+            text.StartCoroutine("ReloadText");
+            // ReloadText();
         }
     }
 
     public void SelectLanguageButton(string fileNameToLocalize)
     { // in Fisrt Scene
         localizedFileName = fileNameToLocalize;
+        SaveDataController.instance.languageSelected = localizedFileName;
+        PlayerPrefs.SetString("languageSelected", localizedFileName);
         LoadLocalizedText();
     }
 
     public void LoadLocalizedText()
     {
-        Debug.Log(localizedFileName);
         localizedText = new Dictionary<string, string>();
         string filePath = Path.Combine(Application.streamingAssetsPath, localizedFileName);
         if (File.Exists(filePath))
@@ -77,11 +96,11 @@ public class LocalizationManager : MonoBehaviour
     {
         string result = missingTextString;
 
-        if(localizedText.ContainsKey(key))
+        if (localizedText.ContainsKey(key))
         {
             result = localizedText[key];
+            result.Replace("\\n", "\n");
         }
-
         return result;
     }
 
@@ -90,4 +109,4 @@ public class LocalizationManager : MonoBehaviour
         return isReady;
     }
 
-}
+} // End Of Script

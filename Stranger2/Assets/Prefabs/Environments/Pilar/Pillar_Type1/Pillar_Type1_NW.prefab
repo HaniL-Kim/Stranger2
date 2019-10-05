@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2104814494129643960}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -38,11 +38,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6055984271151665804}
     m_Modifications:
-    - target: {fileID: 7504132628984777479, guid: 722d2d285a382ab408844727a44f47bc,
-        type: 3}
-      propertyPath: m_Name
-      value: PillarObj_NW
-      objectReference: {fileID: 0}
     - target: {fileID: 7504132628984777476, guid: 722d2d285a382ab408844727a44f47bc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -102,6 +97,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504132628984777479, guid: 722d2d285a382ab408844727a44f47bc,
+        type: 3}
+      propertyPath: m_Name
+      value: PillarObj_NW
+      objectReference: {fileID: 0}
+    - target: {fileID: 669010464105604656, guid: 722d2d285a382ab408844727a44f47bc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 669010464105604656, guid: 722d2d285a382ab408844727a44f47bc,
         type: 3}

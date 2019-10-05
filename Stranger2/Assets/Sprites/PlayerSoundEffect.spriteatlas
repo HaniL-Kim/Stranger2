@@ -16,7 +16,7 @@ SpriteAtlas:
       maxTextureSize: 2048
       textureCompression: 0
       filterMode: 0
-      generateMipMaps: 0
+      generateMipMaps: 1
       readable: 1
       crunchedCompression: 0
       sRGB: 1
@@ -35,48 +35,48 @@ SpriteAtlas:
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 4afdf5a03c9159742a244046a4e75828, type: 3}
-  - {fileID: 21300000, guid: 236ff1f0432298c429adb9300d8101f8, type: 3}
-  - {fileID: 21300000, guid: bf8d6241b52ff0c4ea79c947fa876d79, type: 3}
-  - {fileID: 21300000, guid: 872700c11c6a3094cba1002d7867b78e, type: 3}
-  - {fileID: 21300000, guid: d0fd46e20eca2544192ae5ff6fb3c17a, type: 3}
-  - {fileID: 21300000, guid: 148e1235c723796408480c62ace0d55c, type: 3}
-  - {fileID: 21300000, guid: 9f064085059d8d0418d579bdc1e2b6fd, type: 3}
-  - {fileID: 21300000, guid: b74ab1d5252014742a11ce746191e094, type: 3}
-  - {fileID: 21300000, guid: 8ead84d539e6c9d4ba19eb1a6820abae, type: 3}
-  - {fileID: 21300000, guid: b38011b6bc267184984585875527d8f9, type: 3}
-  - {fileID: 21300000, guid: 49286217d812d284d82a4c4a4c83d2b9, type: 3}
-  - {fileID: 21300000, guid: dafee748790361e44841f7814e21b5ca, type: 3}
-  - {fileID: 21300000, guid: be14fe3a41ec7a348980d730a8916fd4, type: 3}
-  - {fileID: 21300000, guid: b559595ac9bdd9a449afb37ce5937a5a, type: 3}
-  - {fileID: 21300000, guid: 042dd6ca9ad3734409581c218af8b2e6, type: 3}
-  - {fileID: 21300000, guid: 152c8eeb415f7954994c96e842ed3f5b, type: 3}
-  - {fileID: 21300000, guid: 694d26bcaf008244a9538c4afad62aa7, type: 3}
-  - {fileID: 21300000, guid: 9eda1f6efd8de814e85bfeb195d5ca1a, type: 3}
-  - {fileID: 21300000, guid: 20428bfe5e69b5f4ba837fce5fc4fde7, type: 3}
-  - {fileID: 21300000, guid: 4c1ab80f5176f284dba92b5ad3b9014f, type: 3}
-  - {fileID: 21300000, guid: a7cd6dff6d7dcb44b95810b4736a80f8, type: 3}
+  - {fileID: 21300000, guid: 1153920018aafa04192e8db04e2ec487, type: 3}
+  - {fileID: 21300000, guid: c4c62571cb7346f4c82bd8b355063733, type: 3}
+  - {fileID: 21300000, guid: aecdc6814c8996143ad3259d7b38c356, type: 3}
+  - {fileID: 21300000, guid: 815eab91398461f4fa9e44ec0f6da980, type: 3}
+  - {fileID: 21300000, guid: 09d9e2e14d4de76418209c20a221c379, type: 3}
+  - {fileID: 21300000, guid: e62cc142a64835c41b0ea2cbcefcaae0, type: 3}
+  - {fileID: 21300000, guid: a076a47440eb1fd498e2d6dfd9875fe2, type: 3}
+  - {fileID: 21300000, guid: 53ee85d582ff4d44e9fe742151a91c7c, type: 3}
+  - {fileID: 21300000, guid: 8ae4376691b746f4c8baef342dd4f51f, type: 3}
+  - {fileID: 21300000, guid: 49e7df67fbabc1b439fdbe08c4f5522f, type: 3}
+  - {fileID: 21300000, guid: 026c6db7c4e53764a9d0971677b4129c, type: 3}
+  - {fileID: 21300000, guid: ec7699189fb4ae341ad127142700593e, type: 3}
+  - {fileID: 21300000, guid: 57a9bee8b0f961342b432531b59a0859, type: 3}
+  - {fileID: 21300000, guid: 75dea31972673674eb78508563acb6d7, type: 3}
+  - {fileID: 21300000, guid: 1b59208956464b9469d3eca4d54da558, type: 3}
+  - {fileID: 21300000, guid: 10949b1a9581af144b86bd5a94e4d0da, type: 3}
+  - {fileID: 21300000, guid: a1f3c90bba6896348ab294a71c5f0dad, type: 3}
+  - {fileID: 21300000, guid: 697cd31b0dd9bce4fbe32ac22db9a674, type: 3}
+  - {fileID: 21300000, guid: c403991bbf58f5e4bbc9f709fc307a8b, type: 3}
+  - {fileID: 21300000, guid: 75c1398e0ac249241846fd5f9cbdfe2d, type: 3}
+  - {fileID: 21300000, guid: 510fa6ffa653e61419b6243099079d56, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Player_SoundEffect11_Normal
-  - Player_SoundEffect07_Normal
-  - Player_SoundEffect08
-  - Player_SoundEffect04
-  - Player_SoundEffect01_Normal
-  - Player_SoundEffect13_Normal
-  - Player_SoundEffect21_Normal
-  - Player_SoundEffect02
-  - Player_SoundEffect10
-  - Player_SoundEffect16
-  - Player_SoundEffect18
-  - Player_SoundEffect03_Normal
-  - Player_SoundEffect19_Normal
-  - Player_SoundEffect09_Normal
-  - Player_SoundEffect20
-  - Player_SoundEffect05_Normal
-  - Player_SoundEffect14
-  - Player_SoundEffect17_Normal
-  - Player_SoundEffect06
-  - Player_SoundEffect15_Normal
-  - Player_SoundEffect12
+  - FootStepSound13_Normal
+  - FootStepSound16
+  - FootStepSound02
+  - FootStepSound19_Normal
+  - FootStepSound17_Normal
+  - FootStepSound21_Normal
+  - FootStepSound10
+  - FootStepSound12
+  - FootStepSound05_Normal
+  - FootStepSound09_Normal
+  - FootStepSound03_Normal
+  - FootStepSound04
+  - FootStepSound07_Normal
+  - FootStepSound18
+  - FootStepSound20
+  - FootStepSound08
+  - FootStepSound01_Normal
+  - FootStepSound15_Normal
+  - FootStepSound11_Normal
+  - FootStepSound14
+  - FootStepSound06
   m_Tag: PlayerSoundEffect
   m_IsVariant: 0

@@ -7,7 +7,9 @@ public class StartUpManager : MonoBehaviour
 {
     private IEnumerator Start()
     {
-        while(!LocalizationManager.instance.GetIsReady())
+        yield return new WaitForEndOfFrame();
+
+        while (!LocalizationManager.instance.GetIsReady())
         {
             yield return null;
         }

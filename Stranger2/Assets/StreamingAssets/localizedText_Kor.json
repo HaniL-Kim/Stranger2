@@ -1,15 +1,30 @@
-﻿{
-	"items":
-	[
-		{"key" : "Setting", "value" : "환경설정"},
-		{"key" : "MainButton", "value" : "메인으로"},
-		{"key" : "Credit", "value" : "크레딧"},
-		{"key" : "ExitSetting", "value" : "뒤로가기"},
-		{"key" : "GameName", "value" : "밀수는 처음이라"},
-		{"key" : "Language", "value" : "한글"},
-		{"key" : "LanguageDescription", "value" : "(메뉴화면의 환경설정에서만 바꿀 수 있습니다)"},
-		{"key" : "NewGame", "value" : "새로하기"},
-		{"key" : "Quit", "value" : "종료하기"},
-		{"key" : "Continue", "value" : "이어하기"}
-	]
-}
+{"items":[{"key":"Setting","value":"환경설정"}
+,{"key":"MainButton","value":"메인으로"}
+,{"key":"Credit","value":"크레딧"}
+,{"key":"ExitSetting","value":"뒤로가기"}
+,{"key":"GameName","value":"밀수는 처음이라"}
+,{"key":"Language","value":"한글"}
+,{"key":"LanguageDescription","value":"(메뉴화면의 환경설정에서만 바꿀 수 있습니다)"}
+,{"key":"NewGame","value":"새로하기"}
+,{"key":"Quit","value":"종료하기"}
+,{"key":"Continue","value":"이어하기"}
+,{"key":"Yes","value":"예"}
+,{"key":"No","value":"아니오"}
+,{"key":"EnsureDelete","value":"진행 상황을 정말 삭제 하시겠습니까?"}
+,{"key":"StageNameText_0","value":"밀수는 처음이라..."}
+,{"key":"StageDescriptionText_0","value":"수호부 병력의 눈을 피해 잠입하는데 성공(?) 했다.\n내가 늘 말하잖아, 원칙과 안전이 최고라고!"}
+,{"key":"guard_Type1_key0","value":"고무에 바람은 계속 빠진단 말이지?"}
+,{"key":"guard_Type1_key1","value":"내가 경계 임무를 받은 건지,\n정비 임무를 받은 건지"}
+,{"key":"guard_Type1_key2","value":"이 와중에 저 인간은\n또 저러고 있네"}
+,{"key":"guard_Type1_key3","value":"저러고 있을거면 와서\n컴프레셔 버튼이라도 눌러..."}
+,{"key":"guard_Type1_key4","value":"하아... 말을 말자..."}
+,{"key":"guard_Type1_key5","value":"..."}
+,{"key":"guard_Type2_key0","value":"아아 가기 시러어어어어어어ㅓㅓㅓ"}
+,{"key":"guard_Type2_key1","value":"하기 싫다ㅏ~~"}
+,{"key":"guard_Type2_key2","value":"우오아아아!!!!!!!!!!"}
+,{"key":"Board0_key0","value":"해안 경비대 복무 신조?!!!!!!!!!!!"}
+,{"key":"Board0_key1","value":"다행인지 불행인지, 담수 시설 근처겠구만"}
+,{"key":"Board0_key2","value":"도망칠까 싶었지만 잠입에 거의(?) 성공(?)한 김에"}
+,{"key":"Board0_key3","value":"물건을 구해서 돌아가겠어!"}
+
+]}

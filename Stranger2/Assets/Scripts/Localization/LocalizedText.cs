@@ -11,9 +11,11 @@ public class LocalizedText : MonoBehaviour
     private void OnEnable()
     {
         text = GetComponent<Text>();
-        ReloadText();
+        StartCoroutine("ReloadText");
+        // ReloadText();
     }
 
+    /*
     public void ReloadText()
     {
         if (text != null)
@@ -21,5 +23,18 @@ public class LocalizedText : MonoBehaviour
             text.text = LocalizationManager.instance.GetLocalizedValue(key);
         }
     }
+    */
 
+    IEnumerator ReloadText()
+    {
+        while (LocalizationManager.instance == null)
+        {
+            yield return null;
+        }
+        while (LocalizationManager.instance.localizedText == null)
+        {
+            yield return null;
+        }
+        text.text = LocalizationManager.instance.GetLocalizedValue(key);
+    }
 }

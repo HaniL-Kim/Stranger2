@@ -281,8 +281,8 @@ public class PlayerRenderer : MonoBehaviour
                 tmpV3.x = 1 * tmpFactor_X;
                 TF_wallObj.localScale = tmpV3; // Set(1 * tmpFactor_X, 1, 1);
 
-                tmpV3.x = 1 * tmpFactor_Y;
-                TF_wallShadowObj.localScale = tmpV3; // Set(1 * tmpFactor_Y, 1, 1);
+                tmpV3.x = 1 * tmpFactor_X;
+                TF_wallShadowObj.localScale = tmpV3; // Set(1 * tmpFactor_X, 1, 1);
 
                 tmpV3.x = 0.22f * tmpFactor_X; tmpV3.y = -0.12f; tmpV3.z = 0;
                 TF_wallObj.localPosition = tmpV3; // Set(0.22f * tmpFactor_X, -0.12f, 0);
@@ -363,7 +363,7 @@ public class PlayerRenderer : MonoBehaviour
         S_FX_Collider_Small.SetActive(true);
         if (SoundEffectors[2].isPlaying && SoundEffectors[3].isPlaying)
         { // case3 : Effector 2 & 3 Playing
-            Debug.Log(SoundEffectors[2].time + ", " + SoundEffectors[3].time);
+            // Debug.Log(SoundEffectors[2].time + ", " + SoundEffectors[3].time);
             int i = SoundEffectors[2].time >= SoundEffectors[3].time ? 2 : 3;
             SoundEffectors[i].Stop();
             SoundEffectors[i].Clear();

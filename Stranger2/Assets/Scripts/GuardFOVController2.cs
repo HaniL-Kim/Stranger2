@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class GuardFOVController2 : MonoBehaviour
 {
+    UIController uIController;
     private Transform tf;
     private GameObject guardObj;
     [SerializeField] private GuardController guardController; // inspector 직접 할당
@@ -22,6 +23,7 @@ public class GuardFOVController2 : MonoBehaviour
 
     private void Awake()
     {
+        uIController = GameObject.FindGameObjectWithTag("UICanvas").GetComponent<UIController>();
         tf = GetComponent<Transform>();
         guardObj = tf.parent.gameObject;
         guardController = guardObj.GetComponentInChildren<GuardController>();
@@ -31,7 +33,7 @@ public class GuardFOVController2 : MonoBehaviour
         stepCount = guardController.FOVRange * 2 + 1;
         lineEnd = new Vector3[stepCount];
 
-        layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Pillar")) + (1 << LayerMask.NameToLayer("Player"));// Wall, Pillar, Player 체크
+        layerMask = (1 << LayerMask.NameToLayer("Wall")) + (1 << LayerMask.NameToLayer("Player"));// Wall, Player 체크
     }
 
     public void DrawFOV()
@@ -62,14 +64,15 @@ public class GuardFOVController2 : MonoBehaviour
                 checkPoint = (j * ((lineEnd[i] - tf.position) / range)) + tf.position;
                 if (hit2D.collider != null)
                 {
-                    if (hit2D.collider.CompareTag("Player"))
+                    if (hit2D.collider.CompareTag("PlayerTrigger"))
                     { // Player에 충돌시
                         FOVtileMap.SwapTile(FOVCheck, null);
                         guardController.CancelInvoke(); // To Fix
+                        uIController.GameOver();
                         break;
                     }
-                    else
-                    { //  if (hit2D.collider.CompareTag("Wall") || hit2D.collider.CompareTag("Pillar"))
+                    else if(hit2D.collider.CompareTag("WallTrigger"))
+                    { // WallTrigger에 충돌시
                         if (Vector3.Dot((hit2D.point - checkPoint), (lineEnd[i] - tf.position)) < 0)
                         {
                             continue;

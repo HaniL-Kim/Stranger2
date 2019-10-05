@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb; // Player Movement
     public Vector2 tryMove;
     private PlayerRenderer playerRenderer;
-    private Vector3 playerDirection;
+    public Vector3 playerDirection;
     private RaycastHit2D rayClickhit; // Click으로 Wall collider 감지(DeCombine)
     private GameObject objByHit;
     private int layerMask;
@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public float imPatience = 1f;
 
     public int defaultChildCount;
+    public bool isAction;
 
     void Awake()
     {
@@ -43,7 +44,10 @@ public class PlayerController : MonoBehaviour
             { // 포인터가 UI 위에 있지 않을 때
                 if (Input.GetMouseButtonDown(0))
                 {
-                    PlayerAction();
+                    if (!isAction)
+                    {
+                        PlayerAction();
+                    }
                 }
             }
         }
@@ -78,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerAction()
     {
+        isAction = true;
         playerDirection = playerRenderer.playerDirection;
         string rayTargetName = SetRayTarget();
         bool isCarryWall = playerRenderer.isCarryWall;
@@ -128,7 +133,6 @@ public class PlayerController : MonoBehaviour
         if (rayClickhit.collider == null)
         {
             Debug.Log("Action : 맨손으로 무언가 하려 했지만 근처에 아무것도 없습니다.");
-            return;
         }
         else
         {
@@ -136,7 +140,7 @@ public class PlayerController : MonoBehaviour
             { // 
                 objByHit = rayClickhit.collider.gameObject;
                 bool isWallActive = rayClickhit.transform.parent.GetChild(0).gameObject.activeSelf;
-                if ( (isWallActive && !isCarryWall) || (!isWallActive && isCarryWall) )
+                if ((isWallActive && !isCarryWall) || (!isWallActive && isCarryWall))
                 { // 맨손 + Pillar에 Wall이 활성화 or 벽들고 + Pillar에 Wall 비활성
                     if (Vector3.SqrMagnitude(playerDirection) != 1)
                     { // Player Direction이 대각선 방향 일 때 (NW,SE,SW,SE)
@@ -149,35 +153,32 @@ public class PlayerController : MonoBehaviour
                         else
                         { // Pillar 반대편에 있을 때
                             Debug.Log("CombineEvent Error : 정면에 서야합니다.");
-                            return;
                         }
                     }
                     else
                     {  // Player Direction이 수직일 때 (E, W, S, N)
                         Debug.Log("CombineEvent Error : 평행하게 서야합니다.");
-                        return;
                     }
                 }
                 else
                 { // Pillar에 Wall이 없을 때
-                    if(isWallActive && isCarryWall)
+                    if (isWallActive && isCarryWall)
                     {
                         Debug.Log("CombineEvent Error : 벽이 이미 설치되어 있습니다.");
-                        return;
                     }
                     else if (!isWallActive && !isCarryWall)
                     {
                         Debug.Log("CombineEvent Error : 해제 할 벽이 없습니다.");
-                        return;
                     }
                 }
             }
             else
             {// tag가 PillarCollider가 아닐 때
                 Debug.Log("Action : [" + rayClickhit.collider.name + "] 에 무언가 시도했지만 아무일도 일어나지 않습니다.");
-                return;
             }
         }
+        isAction = false;
+        return;
     }
 
     private IEnumerator CombineEvent()
@@ -201,6 +202,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Combine() 했습니다.");
         }
+        isAction = false;
         yield break;
     } // End of CombineEvent()
 

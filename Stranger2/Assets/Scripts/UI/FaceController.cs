@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class FaceController : MonoBehaviour
 {
+    private UIController uIController;
+
     private GameObject _player;
     private PlayerController _playerController;
     private PlayerRenderer _playerRenderer;
@@ -18,6 +20,7 @@ public class FaceController : MonoBehaviour
 
     private void Awake()
     {
+        uIController = this.transform.parent.transform.parent.GetComponent<UIController>();
         _player = GameObject.FindGameObjectWithTag("Player");
             _playerController = _player.GetComponent<PlayerController>();
             _playerRenderer = _player.GetComponent<PlayerRenderer>();
@@ -55,6 +58,10 @@ public class FaceController : MonoBehaviour
                         default:
                             break;
                     }
+                if (_playerController.angerGauge >= 1f)
+                {
+                    uIController.GameOver();
+                }
                 // }
             }
             else if (!_playerRenderer.isCarryWall && _playerController.angerGauge >= -0.01f)

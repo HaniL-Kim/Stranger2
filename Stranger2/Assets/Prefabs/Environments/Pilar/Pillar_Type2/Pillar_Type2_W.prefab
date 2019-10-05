@@ -39,6 +39,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5454211719298245426}
     m_Modifications:
+    - target: {fileID: 3940485768935333926, guid: 756cf830f2cf04c40a660b581afcfe0e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940485768935333925, guid: 756cf830f2cf04c40a660b581afcfe0e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940485768935333925, guid: 756cf830f2cf04c40a660b581afcfe0e,
+        type: 3}
+      propertyPath: m_Name
+      value: Pillar_Type2_NW
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394891940133696637, guid: 756cf830f2cf04c40a660b581afcfe0e,
+        type: 3}
+      propertyPath: m_Name
+      value: PillarObj_Type2_NW
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947667346644335598, guid: 756cf830f2cf04c40a660b581afcfe0e,
+        type: 3}
+      propertyPath: m_Name
+      value: Pillar_Trigger_NW
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100559915770506519, guid: 756cf830f2cf04c40a660b581afcfe0e,
+        type: 3}
+      propertyPath: m_Name
+      value: WallObj_NW
+      objectReference: {fileID: 0}
+    - target: {fileID: 572848499152361802, guid: 756cf830f2cf04c40a660b581afcfe0e,
+        type: 3}
+      propertyPath: m_Name
+      value: Pillar_Obs_NW
+      objectReference: {fileID: 0}
     - target: {fileID: 4158191757130915166, guid: 756cf830f2cf04c40a660b581afcfe0e,
         type: 3}
       propertyPath: m_Name
@@ -104,45 +139,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3940485768935333925, guid: 756cf830f2cf04c40a660b581afcfe0e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3940485768935333925, guid: 756cf830f2cf04c40a660b581afcfe0e,
-        type: 3}
-      propertyPath: m_Name
-      value: Pillar_Type2_NW
-      objectReference: {fileID: 0}
-    - target: {fileID: 3940485768935333926, guid: 756cf830f2cf04c40a660b581afcfe0e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3057187717083063099, guid: 756cf830f2cf04c40a660b581afcfe0e,
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7394891940133696637, guid: 756cf830f2cf04c40a660b581afcfe0e,
-        type: 3}
-      propertyPath: m_Name
-      value: PillarObj_Type2_NW
-      objectReference: {fileID: 0}
-    - target: {fileID: 4947667346644335598, guid: 756cf830f2cf04c40a660b581afcfe0e,
-        type: 3}
-      propertyPath: m_Name
-      value: Pillar_Trigger_NW
-      objectReference: {fileID: 0}
-    - target: {fileID: 572848499152361802, guid: 756cf830f2cf04c40a660b581afcfe0e,
-        type: 3}
-      propertyPath: m_Name
-      value: Pillar_Obs_NW
-      objectReference: {fileID: 0}
-    - target: {fileID: 5100559915770506519, guid: 756cf830f2cf04c40a660b581afcfe0e,
-        type: 3}
-      propertyPath: m_Name
-      value: WallObj_NW
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 756cf830f2cf04c40a660b581afcfe0e, type: 3}
@@ -159,16 +159,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5454211719298245426}
     m_Modifications:
-    - target: {fileID: 7553405889395852645, guid: e5908436ef67ebe40bc888f89e7a565a,
-        type: 3}
-      propertyPath: m_Name
-      value: Pillar_Type1_SW
-      objectReference: {fileID: 0}
-    - target: {fileID: 7553405889395852645, guid: e5908436ef67ebe40bc888f89e7a565a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2444881312912340561, guid: e5908436ef67ebe40bc888f89e7a565a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -228,6 +218,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7553405889395852645, guid: e5908436ef67ebe40bc888f89e7a565a,
+        type: 3}
+      propertyPath: m_Name
+      value: Pillar_Type1_SW
+      objectReference: {fileID: 0}
+    - target: {fileID: 7553405889395852645, guid: e5908436ef67ebe40bc888f89e7a565a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6597983311914860860, guid: e5908436ef67ebe40bc888f89e7a565a,
         type: 3}
