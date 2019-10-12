@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Guard_TalkBalloon : MonoBehaviour
+public class GuardTalkBalloon : MonoBehaviour
 {
     TextMeshProUGUI textMeshPro;
     string[] guard_Type1_keys = new string[6]

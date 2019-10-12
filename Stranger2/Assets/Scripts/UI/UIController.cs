@@ -20,13 +20,14 @@ public class UIController : MonoBehaviour
     private GameObject languagePanel; private GameObject languageDescriptionText;
     private GameObject selectPanel; private GameObject LanguageArrowButton_Right; private GameObject LanguageArrowButton_Left;
     // MenuScene
+    private GameObject openingPanel;    private GameObject cut_1;
     private GameObject menuPanel;
     private GameObject creditPanel;
     public GameObject savePanel;
     private GameObject deleteEnsurePanel;
     private GameObject gameOverPanel;
 
-    private GameObject blackBGPanel;
+    public GameObject blackBGPanel;
     public Sprite[] sp_Thumbnails;
     public Sprite pixelGray;
     public GameObject deleteButtonSelected;
@@ -70,16 +71,19 @@ public class UIController : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == "1_MenuScene")
         {
-            menuPanel = this.transform.GetChild(0).gameObject; // Depth1 A
-            settingPanel = this.transform.GetChild(1).gameObject; // Depth1 B
-            creditPanel = this.transform.GetChild(2).gameObject; // Depth1 C
-            deleteEnsurePanel = this.transform.GetChild(3).gameObject; // Depth1 D
-            blackBGPanel = this.transform.GetChild(4).gameObject; // Depth1 E
+            openingPanel = this.transform.GetChild(0).gameObject; // Depth1 A
+            menuPanel = this.transform.GetChild(1).gameObject; // Depth1 B
+            settingPanel = this.transform.GetChild(2).gameObject; // Depth1 C
+            creditPanel = this.transform.GetChild(3).gameObject; // Depth1 D
+            deleteEnsurePanel = this.transform.GetChild(4).gameObject; // Depth1 E
+            blackBGPanel = this.transform.GetChild(5).gameObject; // Depth1 F
 
-            savePanel = menuPanel.transform.GetChild(1).gameObject; // Depth2 Ab
-            languagePanel = settingPanel.transform.GetChild(1).gameObject; // Depth2 Bb
+            cut_1 = openingPanel.transform.GetChild(0).gameObject; // Depth1 Aa : Cut_1
 
-            languageDescriptionText = languagePanel.transform.GetChild(1).gameObject; // Depth3 Bbb
+            savePanel = menuPanel.transform.GetChild(1).gameObject; // Depth2 Bb
+            languagePanel = settingPanel.transform.GetChild(1).gameObject; // Depth2 Cb
+
+            languageDescriptionText = languagePanel.transform.GetChild(1).gameObject; // Depth3 Cbb
             languageDescriptionText.SetActive(false);
 
             settingPanel.SetActive(false);
@@ -243,6 +247,8 @@ public class UIController : MonoBehaviour
 
     public void StartContinue()
     {
+        SaveDataController.instance.saveSlotNow = EventSystem.current.currentSelectedGameObject.name;
+
         blackBGPanel.SetActive(true);
         Image blackBGPanelImg = blackBGPanel.GetComponent<Image>();
         Transform stageTexts = blackBGPanel.transform.GetChild(0);
@@ -276,6 +282,8 @@ public class UIController : MonoBehaviour
     {
         SaveDataController.instance.saveSlotNow = EventSystem.current.currentSelectedGameObject.name;
         Image[] imgToFade = menuPanel.GetComponentsInChildren<Image>();
+        Text[] textToFade = menuPanel.GetComponentsInChildren<Text>();
+
         for (int i = 0; i < imgToFade.Length; i++)
         {
             imgToFade[i].CrossFadeAlpha(0, 2, false);
@@ -284,12 +292,30 @@ public class UIController : MonoBehaviour
                 imgToFade[i].transform.GetComponent<Button>().enabled = false;
             }
         }
-        StartCoroutine("StartMainWithDelay");
+        for (int i = 0; i < textToFade.Length; i++)
+        {
+            textToFade[i].CrossFadeAlpha(0, 2, false);
+        }
+        StartCoroutine("StartOpeningWithDelay");
     }
-    public IEnumerator StartMainWithDelay()
+    public IEnumerator StartOpeningWithDelay()
     {
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("2_MainScene_Stage0");
+        Transform TF_cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
+        GameObject talkBox_Player = cut_1.transform.GetChild(1).gameObject;
+
+        Vector3 endPos = new Vector3(0, -10f, -30f);
+        int timeOfLerp = 180;
+
+        for (int i = 0; i < timeOfLerp; i++)
+        {
+            float t = (float)i / (float)(timeOfLerp-1);
+            TF_cam.position = Vector3.Slerp(TF_cam.transform.position, endPos, t);
+            yield return new WaitForSeconds(0.02f);
+        }
+        openingPanel.SetActive(true);
+        cut_1.SetActive(true);
+        talkBox_Player.SetActive(true);
     }
 
     public void EnsureDelete_Yes()

@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 6277101679638736517}
   m_Layer: 8
   m_Name: CarryWallCollider
-  m_TagString: Obstacle
+  m_TagString: WallTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19976,7 +19976,7 @@ GameObject:
   - component: {fileID: 4806845942950726911}
   - component: {fileID: 8570303986967520307}
   - component: {fileID: 8127394082671119305}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: S_FX_Collider_Small
   m_TagString: PlayerSound
   m_Icon: {fileID: 0}
@@ -20148,8 +20148,9 @@ MonoBehaviour:
   linearDrag: 1
   rb: {fileID: 0}
   tryMove: {x: 0, y: 0}
+  playerDirection: {x: 0, y: 0, z: 0}
   angerGauge: 0
-  imPatience: 10
+  imPatience: 1
   defaultChildCount: 0
   isAction: 0
 --- !u!114 &974638675
@@ -20273,7 +20274,7 @@ GameObject:
   - component: {fileID: 4859841362195198930}
   - component: {fileID: 1311757845608734796}
   - component: {fileID: 7649362841090634078}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: S_FX_Collider_Normal
   m_TagString: PlayerSound
   m_Icon: {fileID: 0}

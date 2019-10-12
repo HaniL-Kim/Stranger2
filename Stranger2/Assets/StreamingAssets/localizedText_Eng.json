@@ -26,5 +26,14 @@
 ,{"key":"Board0_key1","value":"Good or unlucky,\nIt would be near the desalination facility."}
 ,{"key":"Board0_key2","value":"I thought I'd run away,\nbut I've succeeded(?)\nsneak in nearly(?)"}
 ,{"key":"Board0_key3","value":"It'll be better to go\nand get some stuff!"}
-
+,{"key":"Player_Key0","value":"Playerscript0"}
+,{"key":"Player_Key1","value":"Playerscript1"}
+,{"key":"Player_Key2","value":"Playerscript2"}
+,{"key":"Player_Key3","value":"Playerscript3"}
+,{"key":"Player_Key4","value":"Playerscript4"}
+,{"key":"SmugBroker_Key0","value":"Brokerscript0"}
+,{"key":"SmugBroker_Key1","value":"Brokerscript1"}
+,{"key":"SmugBroker_Key2","value":"Brokerscript2"}
+,{"key":"SmugBroker_Key3","value":"Brokerscript3"}
+,{"key":"SmugBroker_Key4","value":"Brokerscript4"}
 ]}

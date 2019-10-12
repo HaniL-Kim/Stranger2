@@ -26,5 +26,14 @@
 ,{"key":"Board0_key1","value":"다행인지 불행인지, 담수 시설 근처겠구만"}
 ,{"key":"Board0_key2","value":"도망칠까 싶었지만 잠입에 거의(?) 성공(?)한 김에"}
 ,{"key":"Board0_key3","value":"물건을 구해서 돌아가겠어!"}
-
+,{"key":"Player_Key0","value":"플레이어대사0"}
+,{"key":"Player_Key1","value":"플레이어대사1"}
+,{"key":"Player_Key2","value":"플레이어대사2"}
+,{"key":"Player_Key3","value":"플레이어대사3"}
+,{"key":"Player_Key4","value":"플레이어대사4"}
+,{"key":"SmugBroker_Key0","value":"브로커대사0"}
+,{"key":"SmugBroker_Key1","value":"브로커대사1"}
+,{"key":"SmugBroker_Key2","value":"브로커대사2"}
+,{"key":"SmugBroker_Key3","value":"브로커대사3"}
+,{"key":"SmugBroker_Key4","value":"브로커대사4"}
 ]}

@@ -46,8 +46,8 @@ public class SaveDataController : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "1_MenuScene")
         {
             UICanvas = GameObject.FindGameObjectWithTag("UICanvas");
-            BGM_Slider = UICanvas.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Slider>();
-            EFF_Slider = UICanvas.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Slider>();
+            BGM_Slider = UICanvas.transform.GetChild(2).GetChild(2).GetChild(1).GetComponent<Slider>();
+            EFF_Slider = UICanvas.transform.GetChild(2).GetChild(3).GetChild(1).GetComponent<Slider>();
         }
         if (SceneManager.GetActiveScene().name == "2_MainScene_Stage0")
         {

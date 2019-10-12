@@ -7,7 +7,7 @@ public class GuardController : MonoBehaviour
     private GuardFOVController2 guardFOVController2;
     public int FOVRange = 0; // Default : 20
     public int FOV_halfWidth = 0; // Default : FOVRange/2, min : 1, max = FOVRange*4
-    Dictionary<int, GridInfo> FOV_gridMap;
+    public Dictionary<int, GridInfo> FOV_gridMap;
     [Range(0, 159)]
     public int FOV_gridMap_Key;
     public Vector3Int grid_view_center = Vector3Int.zero;
@@ -78,26 +78,27 @@ public class GuardController : MonoBehaviour
         grid_view_center.y = tmp._coord_Y;
         GetGridBorder();
         // delayTimeCounter = 0;
-        guardFOVController2.DrawFOV();
+        guardFOVController2.InitiateFOV();
+        guardFOVController2.DrawFOV2();
     }
 
     void StoreGridEdgeInfo()
     {
         for (int i = 0; i < (2 * FOVRange) * 4; i++)
         { // Range Default : 20
-            if (i < FOVRange * 2) // key : [0] ~ [39]
+            if (i < FOVRange * 2) // key : [0] ~ [59]
             { // [0] = (19, 20), [19] = (0, 20), [20] = (1, 20), [39] = (-20, 20)
                 FOV_gridMap.Add(i, new GridInfo(FOVRange - i - 1, FOVRange));
             }
-            else if (i < FOVRange * 4) // key : [40] ~ [79]
+            else if (i < FOVRange * 4) // key : [60] ~ [119]
             { // [40] = (-20, 19), [59] = (-20, 0), [60] = (-20, -1), [79] = (-20, -20)
                 FOV_gridMap.Add(i, new GridInfo(-FOVRange, FOVRange - i + (2 * FOVRange) - 1));
             }
-            else if (i < FOVRange * 6) // [80] ~ [119]
+            else if (i < FOVRange * 6) // [120] ~ [179]
             { // [80] = (-19, -20), [99] = (0, -20), [100] = (1, -20), [119] = (20, -20)
                 FOV_gridMap.Add(i, new GridInfo(-(FOVRange - i + (4 * FOVRange) - 1), -FOVRange));
             }
-            else if (i < FOVRange * 8) // [120] ~ [159]
+            else if (i < FOVRange * 8) // [180] ~ [239]
             { // [120] = (20, -19), [139] = (20, 0), [140] = (20, 1), [159] = (20, 20)
                 FOV_gridMap.Add(i, new GridInfo(FOVRange, -(FOVRange - i + (6 * FOVRange) - 1)));
             }
@@ -112,13 +113,13 @@ public class GuardController : MonoBehaviour
         for (int i = 0; i < keys.Length; i++)
         {
             keys[i] = FOV_gridMap_Key - FOV_halfWidth + i;
-            if (keys[i] > FOV_gridMap.Count)
+            if (keys[i] > FOV_gridMap.Count-1)
             {
-                keys[i] = keys[i] - FOV_gridMap.Count - 1;
+                keys[i] = keys[i] - FOV_gridMap.Count;
             }
             else if (keys[i] < 0)
             {
-                keys[i] = keys[i] + FOV_gridMap.Count + 1;
+                keys[i] = keys[i] + FOV_gridMap.Count;
             }
             FOV_gridMap.TryGetValue(keys[i], out infos[i]);
             grid_view_border[i].x = infos[i]._coord_X;
